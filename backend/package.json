@@ -1,0 +1,13 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "This is the Multi Media Website like Youtube.",
+  "keywords": [ "MERN", "javascript", "chai aur backend" ],
+  "license": "ISC",
+  "author": "Yash Varma",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  }
+}
