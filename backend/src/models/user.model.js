@@ -17,6 +17,13 @@ const userSchema = new Schema({
         trim: true,
         index: true, // It makes the searching easy!
     },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowecase: true,
+        trim: true, 
+    },
     avatar: {
         type: String, // cloudinary url
         required: true
@@ -43,7 +50,7 @@ userSchema.pre("save", async function (next) { // As through Arrow Fn, we will n
 
     if (!this.isModified("password")) return next();
 
-    this.password = bcrypt.hash(this.password, 10);
+    this.password = await bcrypt.hash(this.password, 10);
     next();
 })
 
