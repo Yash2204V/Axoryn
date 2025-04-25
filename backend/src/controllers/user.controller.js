@@ -132,11 +132,12 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const logoutUser = asyncHandler(async (req, res) => {
 
-    await User.findByIdAndUpdate(req.user._id, {
-        $set: {
-            refreshToken: undefined
-        }
-    },
+    await User.findByIdAndUpdate(req.user._id,
+        {
+            $unset: {
+                refreshToken: 1 // this removes the field from document
+            }
+        },
         {
             new: true
         }
@@ -252,7 +253,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 const updateUserAvatar = asyncHandler(async (req, res) => {
     const avatarLocalPath = req.file?.path;
 
-    if (avatarLocalPath) {
+    if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is missing");
     }
 
@@ -345,8 +346,10 @@ const getUserCurrentProfile = asyncHandler(async (req, res) => {
                     $size: "$subscribedTo"
                 },
                 isSubscribed: { // New field: isSubscribed in db.
-                    $condition: {
-                        if: { $in: [req.user?._id, "subscribers.subscriber"] }, // $in: It is see within array & objects as well.
+                    $cond: {
+                        if: {
+                            $in: [req.user?._id, ["subscribers.subscriber"]] // $in: It is see within array & objects as well.
+                        },
                         then: true,
                         else: false
                     }
@@ -355,7 +358,7 @@ const getUserCurrentProfile = asyncHandler(async (req, res) => {
         },
         {
             $project: { // Final projection: What fields do you like?
-                fullname: 1,
+                fullName: 1,
                 username: 1,
                 subscribersCount: 1,
                 channelsSubscribedToCount: 1,
@@ -423,7 +426,6 @@ const getWatchHistory = asyncHandler(async (req, res) => {
         }
     ])
 
-    // console.log(channel);
     if (!user?.length) {
         throw new ApiError(404, "Watch History Fetching Failed")
     }
