@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { func } from "./features/user/userSlice.js"
+// import { func } from "./features/user/userSlice.js"
 import { Header, Footer } from "./components/index.js"
+import { Admin, Channel, Home, Player, PrivacyPolicy, TermAndCondition } from './pages/index.js';
 
 const App = () => {
 
@@ -26,11 +27,10 @@ const App = () => {
   }, [])
 
 
-  return !loading ? (
+  return loading ? (
 
     <>
-      <Header />
-      <Footer />
+      <TermAndCondition />
     </>
 
   ) : (null)

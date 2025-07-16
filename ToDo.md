@@ -12,6 +12,8 @@ Seek help from previous codebase.
 1. Video -> (1 controller left)
 8. Dashboard -> (1 controller left)
 
+https://app.eraser.io/workspace/oELqoMSX0HPVEL0C5bXe
+
 https://github.com/Umeshchaurasiya123/BackendProject/
 https://devuiv2.vercel.app/templates/youtube
 https://app.eraser.io/workspace/YtPqZ1VogxGy1jzIDkzj
