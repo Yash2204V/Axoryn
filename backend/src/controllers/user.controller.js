@@ -78,7 +78,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     const user = await User.create({
         fullName,
-        avatar: avatar.url,
+        avatar: avatar?.url || "",
         coverImage: coverImage?.url || "",
         email,
         password,
@@ -107,7 +107,7 @@ const loginUser = asyncHandler(async (req, res) => {
     //access and referesh token
     //send cookie
 
-    const { email, username, password } = req.body
+    const { username, email, password } = req.body
 
     if (!username && !email) {
         throw new ApiError(400, "username or email is required")

@@ -1,39 +1,42 @@
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
-// import { func } from "./features/user/userSlice.js"
-import { Header, Footer } from "./components/index.js"
-import { Admin, Channel, Home, Player, PrivacyPolicy, TermAndCondition } from './pages/index.js';
+import { Outlet } from 'react-router-dom';
+import { Footer, Header } from './components/index.js';
+import { useEffect, useState } from 'react';
+import { useDispatch } from "react-redux"
+import userService from './services/userService.js';
+import { loginUser, logoutUser } from "./features/user/userSlice.js"
+
 
 const App = () => {
-
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
-
-    // login or not?
-
-    /*
-      ....................
+    userService.getCurrentUser()
       .then((userData) => {
-
-          if(userData) dispatch(fun({userData}))
-          else dispatch(logout())
-
-        })
-      .finally(() => setLoading(false)) 
-    */
-
+        if (userData) {
+          dispatch(loginUser(userData));
+        } else {
+          dispatch(logoutUser());
+        }
+      })
+      .finally(() => setLoading(false))
   }, [])
 
+  // return (
+  //   <div className=''>
+  //     {/* <Header /> */}
+  //     <Outlet />
+  //     {/* <Footer /> */}
+  //   </div>
+  // );
 
-  return loading ? (
+  return !loading ? (
+      <div className=''>
+        {/* <Header /> */}
+        <Outlet />
+        {/* <Footer /> */}
+      </div>
+  ) : null
+};
 
-    <>
-      <TermAndCondition />
-    </>
-
-  ) : (null)
-}
-
-export default App
+export default App;
