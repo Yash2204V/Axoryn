@@ -7,36 +7,36 @@ import { loginUser, logoutUser } from "./features/user/userSlice.js"
 
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
+  // const [loading, setLoading] = useState(true);
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    userService.getCurrentUser()
-      .then((userData) => {
-        if (userData) {
-          dispatch(loginUser(userData));
-        } else {
-          dispatch(logoutUser());
-        }
-      })
-      .finally(() => setLoading(false))
-  }, [])
+  // useEffect(() => {
+  //   userService.getCurrentUser()
+  //     .then((userData) => {
+  //       if (userData) {
+  //         dispatch(loginUser(userData));
+  //       } else {
+  //         dispatch(logoutUser());
+  //       }
+  //     })
+  //     .finally(() => setLoading(false))
+  // }, [])
 
-  // return (
-  //   <div className=''>
-  //     {/* <Header /> */}
-  //     <Outlet />
-  //     {/* <Footer /> */}
-  //   </div>
-  // );
+  return (
+    <div className=''>
+      {/* <Header /> */}
+      <Outlet />
+      {/* <Footer /> */}
+    </div>
+  );
 
-  return !loading ? (
-      <div className=''>
-        {/* <Header /> */}
-        <Outlet />
-        {/* <Footer /> */}
-      </div>
-  ) : null
+  // return !loading ? (
+  //     <div className=''>
+  //       {/* <Header /> */}
+  //       <Outlet />
+  //       {/* <Footer /> */}
+  //     </div>
+  // ) : null
 };
 
 export default App;

@@ -5,7 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import { Provider } from 'react-redux'
 import store from './app/store.js'
-import { Landing, Home, Channel, Admin, Player, PrivacyPolicy, TermAndCondition, Login, Register } from "./pages/index.js"
+import { Landing, Home, Channel, Admin, Player, PrivacyPolicy, TermAndCondition, Login, Register, Demo, Demo1 } from "./pages/index.js"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +20,9 @@ const router = createBrowserRouter(
 
       <Route path='privacy-policy' element={<PrivacyPolicy />} />
       <Route path='term-and-condition' element={<TermAndCondition />} />
+
+      <Route path='demo' element={<Demo />} />
+      <Route path='demo1' element={<Demo1 />} />
     </Route>
   )
 )
