@@ -10,8 +10,7 @@ import { Landing, Home, Channel, Admin, Player, PrivacyPolicy, TermAndCondition,
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
-      <Route index element={<Landing />} />
-      <Route path='home' element={<Home />} />
+      <Route index element={<Home />} />
       <Route path='login' element={<Login />} />
       <Route path='register' element={<Register />} />
 
