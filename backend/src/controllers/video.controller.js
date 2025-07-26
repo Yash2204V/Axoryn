@@ -7,33 +7,107 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 import { deleteOnCloudinary, uploadOnCloudinary } from "../utils/cloudinary.js"
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
+    const { page = 1, limit = 10, query = "", sortBy = "createdAt", sortType = "desc" } = req.query;
+
+    const pageNumber = parseInt(page);
+    const limitNumber = parseInt(limit);
+    const sortDirection = sortType === "asc" ? 1 : -1;
+
+    const matchStage = query
+        ? { title: { $regex: query, $options: "i" } }
+        : {};
+
+    const sortStage = {
+        [sortBy]: sortDirection,
+    };
+
+    const aggregatePipeline = [
+        { $match: matchStage },
+        { $sort: sortStage },
+    ];
+
+    const options = {
+        page: pageNumber,
+        limit: limitNumber,
+    };
+
+    const aggregate = Video.aggregate(aggregatePipeline);
+
+    Video.aggregatePaginate(aggregate, options, (err, result) => {
+        if (err) {
+            throw new ApiError(400, err.message || "Failed to fetch videos");
+        } else {
+            return res.status(200).json(
+                new ApiResponse(200, result, "All Videos Fetched Successfully.")
+            );
+        }
+    });
+});
+
+const getAllUserVideos = asyncHandler(async (req, res) => {
+    const { page = 1, limit = 10, query, sortBy = "createdAt", sortType = "desc", userId } = req.query;
+
     //TODO: get all videos based on query, sort, pagination
-    /* 
-        1. Extract all videos from the Video Schema through the User Id searching.
-        2. Apply the MongoDB Aggregation & get the:
-            a. all videos
-        3. send the response
-    */
+    if(isValidObjectId(userId)){
+        throw new ApiError(400, "Invalid Id")
+    }
+
     const options = {
         page,
         limit
     }
-    // const videos = await Video.find();
-    // console.log(videos);
 
-    const myAggregateVideos = Video.aggregate();
+    const myAggregateUsers = User.aggregate([
+    
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(userId),
+            },
+        },
+        {
+            $lookup: {
+                from: "videos",
+                localField: "_id",
+                foreignField: "owner",
+                as: "videos",
+            },
+        },
+        {
+            $unwind: "$videos",
+        },
+        {
+            $match: {
+                ...(query && { "videos.title": { $regex: query, $options: "i" } }),
+            },
+        },
+        {
+            $sort: {
+                [`videos.${sortBy}`]: sortType === "asc" ? 1 : -1,
+            },
+        },
+        {
+            $skip: (pageNumber - 1) * limitNumber,
+        },
+        {
+            $limit: limitNumber,
+        },
+        {
+            $group: {
+                _id: "$_id",
+                videos: { $push: "$videos" },
+            },
+        },
+    ]);
 
-    Video.aggregatePaginate(myAggregateVideos, options, function (err, result) {
+    User.aggregatePaginate(myAggregateUsers, options, function (err, result) {
         if (err) {
-            console.log(err);
+            throw new ApiError(400, err)
         } else {
-            console.log(result);
-
+            return res
+                .status(200)
+                .json(new ApiResponse(200,  result, "All User Videos"))
         }
     })
-
-
 })
 
 const publishAVideo = asyncHandler(async (req, res) => {
@@ -98,7 +172,7 @@ const getVideoById = asyncHandler(async (req, res) => {
 
     const video = await Video.findByIdAndUpdate(
         videoId,
-        { 
+        {
             $inc: { views: 1 }
         },
         { new: true }
@@ -199,6 +273,7 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
 
 export {
     getAllVideos,
+    getAllUserVideos,
     publishAVideo,
     getVideoById,
     updateVideo,

@@ -1,6 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Input, Button } from "../../components"
+import userService from '../../services/userService';
 
 function Register() {
+
+    const [formData, setFormData] = useState({
+        fullName: "",
+        email: "",
+        username: "",
+        password: "",
+        avatar: null,
+        coverImage: null,
+    })
+
+    const handleChange = (e) => {
+        e.preventDefault();
+
+        const { name, value, files } = e.target;
+        if (files) {
+            setFormData((prev) => ({
+                ...prev,
+                [name]: files[0]
+            }))
+        } else {
+            setFormData((prev) => ({
+                ...prev,
+                [name]: value
+            }))
+        }
+    };
+
+    const formHandler = async () => {
+
+        const compatibleFormData = new FormData();
+        for(let key in compatibleFormData) {
+            if(compatibleFormData[key]){
+                formData.append(key, compatibleFormData[key]);
+            }
+        }
+
+        const res = await userService.registerUser({compatibleFormData});
+        console.log(res);
+    }
+
     return (
         <div className="h-screen overflow-y-auto bg-[#121212] text-white">
             <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
@@ -60,20 +102,19 @@ function Register() {
                     </svg>
                 </div>
                 <div className="mb-6 w-full text-center text-2xl font-semibold uppercase">
-                    Play
+                    AXORYN
                 </div>
-                <label htmlFor="email" className="mb-1 inline-block text-gray-300">
-                    Email*
-                </label>
-                <input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    className="mb-4 rounded-lg border bg-transparent px-3 py-2"
-                />
-                <button className="bg-[#ae7aff] px-4 py-3 text-black">
-                    Sign up with Email
-                </button>
+                <form action="">
+                    <form onSubmit={formHandler} method='post'>
+                        <Input label={'Fullname*'} type={'text'} onChange={handleChange} value={formData.fullName} placeholder={'Enter your Fullname'} />
+                        <Input label={'Username*'} type={'text'} onChange={handleChange} value={formData.username} placeholder={'Enter your Username'} />
+                        <Input label={'Avatar*'} type={'file'} onChange={handleChange} value={formData.avatar} placeholder={'Upload your Avatar'} />
+                        <Input label={'CoverImage*'} type={'file'} onChange={handleChange} value={formData.coverImage} placeholder={'Upload your Cover Image'} />
+                        <Input label={'Email*'} type={'email'} onChange={handleChange} value={formData.email} placeholder={'Enter your email'} />
+                        <Input label={'Password*'} type={'password'} onChange={handleChange} value={formData.password} placeholder={'Enter your password'} />
+                        <Button type={'submit'} children={'Sign Up'} />
+                    </form>
+                </form>
             </div>
         </div>
 

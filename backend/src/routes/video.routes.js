@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import {
-    deleteVideo,
     getAllVideos,
     getVideoById,
     publishAVideo,
     togglePublishStatus,
     updateVideo,
+    deleteVideo,
+    getAllUserVideos,
 } from "../controllers/video.controller.js"
 import {verifyJWT} from "../middlewares/auth.middleware.js"
 import {upload} from "../middlewares/multer.middleware.js"
@@ -30,6 +31,10 @@ router
         ]),
         publishAVideo
     );
+
+router
+    .route("/user/videos")
+    .get(getAllUserVideos)
 
 router
     .route("/:videoId")

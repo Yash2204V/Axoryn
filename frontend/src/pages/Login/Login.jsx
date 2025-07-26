@@ -1,5 +1,35 @@
+import { useState } from "react";
+import { Input } from "../../components"
+import userService from "../../services/userService";
+import { useNavigate } from "react-router-dom";
+import Button from "../../components/Button";
+import { useDispatch } from "react-redux";
+import { loginUser, logoutUser } from "../../features/user/userSlice";
 
 function Login() {
+    const dispatch = useDispatch();
+
+    const [formData, setFormData] = useState({
+        username: "",
+        email: "",
+        password: ""
+    })
+
+    const handleChange = async (e) => {
+        e.preventDefault();
+        const [name, value] = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const formHandler = async () => {
+
+        const res = await userService.login(formData);
+        console.log(res);
+    
+    }
     return (
         <div className="h-screen overflow-y-auto bg-[#121212] text-white">
             <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
@@ -61,21 +91,14 @@ function Login() {
                 <div className="mb-6 w-full text-center text-2xl font-semibold uppercase">
                     Play
                 </div>
-                <label htmlFor="email" className="mb-1 inline-block text-gray-300">
-                    Email*
-                </label>
-                <input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    className="mb-4 rounded-lg border bg-transparent px-3 py-2"
-                />
-                <button className="bg-[#ae7aff] px-4 py-3 text-black">
-                    Sign in with Email
-                </button>
+                <form onSubmit={formHandler} method='post'>
+                    <Input label={'Username*'} type={'text'} onChange={handleChange} value={formData.username} placeholder={'Enter your username'} />
+                    <Input label={'Email*'} type={'email'} onChange={handleChange} value={formData.email} placeholder={'Enter your email'} />
+                    <Input label={'Password*'} type={'password'} onChange={handleChange} value={formData.password} placeholder={'Enter your password'} />
+                    <Button children={'Sign In'} />
+                </form>
             </div>
         </div>
-
     )
 }
 

@@ -10,7 +10,7 @@ const Input = forwardRef(function Input({
     const id = useId();
 
     return (
-        <div className='w-full'>
+        <div className='w-full flex flex-col'>
             {label && <label htmlFor={id} className="mb-1 inline-block text-gray-300">
                 {label}
             </label>}
@@ -20,8 +20,7 @@ const Input = forwardRef(function Input({
                 type={type}
                 {...props}
                 className={`mb-4 rounded-lg border bg-transparent px-3 py-2 ${className}`}
-                ref={ref}
-            />
+                ref={ref} />
         </div>
     )
 })
