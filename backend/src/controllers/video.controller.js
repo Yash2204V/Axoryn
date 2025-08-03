@@ -24,6 +24,31 @@ const getAllVideos = asyncHandler(async (req, res) => {
     const aggregatePipeline = [
         { $match: matchStage },
         { $sort: sortStage },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "channel"
+            }
+        },
+        {
+            $unwind: "$channel",
+        },
+        {
+            $project: {
+                _id: 1,
+                thumbnail: 1,
+                title: 1,
+                duration: 1,
+                views: 1,
+                "channel._id": 1,
+                "channel.username": 1,
+                "channel.avatar": 1,
+                createdAt: 1,
+                updatedAt: 1
+            }
+        }
     ];
 
     const options = {

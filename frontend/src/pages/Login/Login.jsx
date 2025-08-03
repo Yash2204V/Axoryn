@@ -1,35 +1,44 @@
 import { useState } from "react";
-import { Input } from "../../components"
 import userService from "../../services/userService";
-import { useNavigate } from "react-router-dom";
-import Button from "../../components/Button";
+import { Button, Input } from "../../components";
+import { loginUser } from "../../features/user/userSlice.js"
 import { useDispatch } from "react-redux";
-import { loginUser, logoutUser } from "../../features/user/userSlice";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { register, handleSubmit } = useForm();
+
+    const [error, setError] = useState("");
     const [formData, setFormData] = useState({
         username: "",
         email: "",
         password: ""
     })
 
-    const handleChange = async (e) => {
-        e.preventDefault();
-        const [name, value] = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value
-        }));
-    };
+    const login = async (data) => {
+        setError(""); // clear up the error state
+        try {
+            const userData = await userService.login(data);
 
-    const formHandler = async () => {
+            if(!userData){
+                setError("Invalid credentials");
+                return;
+            }
 
-        const res = await userService.login(formData);
-        console.log(res);
-    
+            dispatch(loginUser(userData));
+            localStorage.setItem("token", JSON.stringify(userData));
+            navigate("/");
+            
+        } catch (error) {
+            setError(error.message);
+        }
+
     }
+
     return (
         <div className="h-screen overflow-y-auto bg-[#121212] text-white">
             <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
@@ -89,12 +98,12 @@ function Login() {
                     </svg>
                 </div>
                 <div className="mb-6 w-full text-center text-2xl font-semibold uppercase">
-                    Play
+                    Axoryn
                 </div>
-                <form onSubmit={formHandler} method='post'>
-                    <Input label={'Username*'} type={'text'} onChange={handleChange} value={formData.username} placeholder={'Enter your username'} />
-                    <Input label={'Email*'} type={'email'} onChange={handleChange} value={formData.email} placeholder={'Enter your email'} />
-                    <Input label={'Password*'} type={'password'} onChange={handleChange} value={formData.password} placeholder={'Enter your password'} />
+                <form onSubmit={handleSubmit(login)} method='post'>
+                    <Input label={'Username*'} type={'text'} value={formData.username} placeholder={'Enter your username'} />
+                    <Input label={'Email*'} type={'email'} value={formData.email} placeholder={'Enter your email'} />
+                    <Input label={'Password*'} type={'password'} value={formData.password} placeholder={'Enter your password'} />
                     <Button children={'Sign In'} />
                 </form>
             </div>

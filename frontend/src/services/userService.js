@@ -51,8 +51,6 @@ export class UserService {
 
             const res = await this.api.post('/login', payload);
 
-            console.log("login data", res.data);
-
             return res.data;
         } catch (error) {
             throw error.response?.data || error;

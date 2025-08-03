@@ -1,0 +1,25 @@
+{
+  "name": "axoryn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yash2204V/Axoryn.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yash2204V/Axoryn/issues"
+  },
+  "homepage": "https://github.com/Yash2204V/Axoryn#readme",
+  "dependencies": {
+    "concurrently": "^9.2.0"
+  }
+}
