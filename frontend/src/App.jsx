@@ -1,32 +1,23 @@
 import { Outlet } from 'react-router-dom';
 import { Footer, Header } from './components/index.js';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from "react-redux"
-import userService from './services/userService.js';
-import { loginUser, logoutUser } from "./features/user/userSlice.js"
+import { checkAuthStatus } from "./features/user/userSlice.js"
 
 
 const App = () => {
-  // const [loading, setLoading] = useState(true);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   userService.getCurrentUser()
-  //     .then((userData) => {
-  //       if (userData) {
-  //         dispatch(loginUser(userData));
-  //       } else {
-  //         dispatch(logoutUser());
-  //       }
-  //     })
-  //     .finally(() => setLoading(false))
-  // }, [])
+  // Check if user is authenticated on app load
+  useEffect(() => {
+    dispatch(checkAuthStatus());
+  }, [dispatch])
 
   return (
     <div className=''>
-      {/* <Header /> */}
+      <Header />
       <Outlet />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 

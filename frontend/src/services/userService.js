@@ -20,8 +20,6 @@ export class UserService {
 
     }
 
-
-
     async registerUser({ formData }) {
         // Here, formData is the instance of new FormData(): That's why it contains all text and file field. (To avoid JSON Data in place of multer files.)
 

@@ -4,6 +4,7 @@ import Container from "./container/Container";
 import LogoutBtn from "./Header/LogoutBtn";
 import Input from "./Input";
 import Button from "./Button";
+import VideoCard from "./VideoCard";
 
 export { 
     Header, 
@@ -11,5 +12,6 @@ export {
     Container,
     LogoutBtn,
     Input,
-    Button
+    Button,
+    VideoCard
 }

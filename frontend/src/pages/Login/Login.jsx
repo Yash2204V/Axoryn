@@ -1,42 +1,76 @@
 import { useState } from "react";
-import userService from "../../services/userService";
 import { Button, Input } from "../../components";
-import { loginUser } from "../../features/user/userSlice.js"
-import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { setLoading, setError, loginUser } from "../../features/user/userSlice.js"
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { register, handleSubmit } = useForm();
+    const { loading, error } = useSelector((state) => state.user);
 
-    const [error, setError] = useState("");
     const [formData, setFormData] = useState({
         username: "",
         email: "",
         password: ""
-    })
+    });
+    console.log("Form Data", formData);
+    
 
-    const login = async (data) => {
-        setError(""); // clear up the error state
-        try {
-            const userData = await userService.login(data);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
 
-            if(!userData){
-                setError("Invalid credentials");
-                return;
-            }
+    const login = async (e) => {
+        e.preventDefault();
+        
+        dispatch(setLoading(true));
+        dispatch(setError(null));
 
-            dispatch(loginUser(userData));
-            localStorage.setItem("token", JSON.stringify(userData));
-            navigate("/");
-            
-        } catch (error) {
-            setError(error.message);
+        // Create login payload
+        const payload = { password: formData.password };
+        
+        if (formData.username) {
+            payload.username = formData.username;
+        } else if (formData.email) {
+            payload.email = formData.email;
+        } else {
+            dispatch(setError("Please enter username or email"));
+            dispatch(setLoading(false));
+            return;
         }
 
+        try {
+            const response = await fetch('http://localhost:8000/api/v1/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                // Store token
+                localStorage.setItem("token", result.data.accessToken);
+                
+                // Update Redux state
+                dispatch(loginUser(result.data.user));
+                
+                // Navigate to home
+                navigate("/");
+            } else {
+                dispatch(setError(result.message || 'Login failed'));
+            }
+        } catch {
+            dispatch(setError('Network error'));
+        }
     }
 
     return (
@@ -100,12 +134,55 @@ function Login() {
                 <div className="mb-6 w-full text-center text-2xl font-semibold uppercase">
                     Axoryn
                 </div>
-                <form onSubmit={handleSubmit(login)} method='post'>
-                    <Input label={'Username*'} type={'text'} value={formData.username} placeholder={'Enter your username'} />
-                    <Input label={'Email*'} type={'email'} value={formData.email} placeholder={'Enter your email'} />
-                    <Input label={'Password*'} type={'password'} value={formData.password} placeholder={'Enter your password'} />
-                    <Button children={'Sign In'} />
+
+                {error && (
+                    <div className="mb-4 p-3 bg-red-600 text-white rounded-lg text-sm">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={login}>
+                    <Input 
+                        label={'Username'} 
+                        type={'text'} 
+                        name={'username'}
+                        onChange={handleChange}
+                        value={formData.username} 
+                        placeholder={'Enter your username'} 
+                    />
+                    <Input 
+                        label={'Email'} 
+                        type={'email'} 
+                        name={'email'}
+                        onChange={handleChange}
+                        value={formData.email} 
+                        placeholder={'Enter your email'} 
+                    />
+                    <Input 
+                        label={'Password*'} 
+                        type={'password'} 
+                        name={'password'}
+                        onChange={handleChange}
+                        value={formData.password} 
+                        placeholder={'Enter your password'} 
+                    />
+                    <Button 
+                        type={'submit'}
+                        disabled={loading}
+                    >
+                        {loading ? 'Signing In...' : 'Sign In'}
+                    </Button>
                 </form>
+
+                <div className="mt-6 text-center text-sm text-gray-400">
+                    Don't have an account?{' '}
+                    <Link 
+                        to="/register" 
+                        className="text-[#ae7aff] hover:underline font-semibold"
+                    >
+                        Sign Up
+                    </Link>
+                </div>
             </div>
         </div>
     )

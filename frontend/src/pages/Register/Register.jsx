@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Input, Button } from "../../components"
-import userService from '../../services/userService';
+import { setLoading, setError, registerSuccess } from '../../features/user/userSlice'
+import { useNavigate, Link } from 'react-router-dom'
 
 function Register() {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { loading, error } = useSelector((state) => state.user)
 
     const [formData, setFormData] = useState({
         fullName: "",
@@ -14,8 +19,6 @@ function Register() {
     })
 
     const handleChange = (e) => {
-        e.preventDefault();
-
         const { name, value, files } = e.target;
         if (files) {
             setFormData((prev) => ({
@@ -30,17 +33,38 @@ function Register() {
         }
     };
 
-    const formHandler = async () => {
+    const formHandler = async (e) => {
+        e.preventDefault();
+        
+        dispatch(setLoading(true));
+        dispatch(setError(null));
 
-        const compatibleFormData = new FormData();
-        for(let key in compatibleFormData) {
-            if(compatibleFormData[key]){
-                formData.append(key, compatibleFormData[key]);
+        // Create FormData
+        const data = new FormData();
+        for(let key in formData) {
+            if(formData[key]){
+                data.append(key, formData[key]);
             }
         }
 
-        const res = await userService.registerUser({compatibleFormData});
-        console.log(res);
+        try {
+            const response = await fetch('http://localhost:8000/api/v1/users/register', {
+                method: 'POST',
+                body: data
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                dispatch(registerSuccess());
+                alert('Registration successful! Please login.');
+                navigate('/login');
+            } else {
+                dispatch(setError(result.message || 'Registration failed'));
+            }
+        } catch {
+            dispatch(setError('Network error'));
+        }
     }
 
     return (
@@ -104,17 +128,77 @@ function Register() {
                 <div className="mb-6 w-full text-center text-2xl font-semibold uppercase">
                     AXORYN
                 </div>
-                <form action="">
-                    <form onSubmit={formHandler} method='post'>
-                        <Input label={'Fullname*'} type={'text'} onChange={handleChange} value={formData.fullName} placeholder={'Enter your Fullname'} />
-                        <Input label={'Username*'} type={'text'} onChange={handleChange} value={formData.username} placeholder={'Enter your Username'} />
-                        <Input label={'Avatar*'} type={'file'} onChange={handleChange} value={formData.avatar} placeholder={'Upload your Avatar'} />
-                        <Input label={'CoverImage*'} type={'file'} onChange={handleChange} value={formData.coverImage} placeholder={'Upload your Cover Image'} />
-                        <Input label={'Email*'} type={'email'} onChange={handleChange} value={formData.email} placeholder={'Enter your email'} />
-                        <Input label={'Password*'} type={'password'} onChange={handleChange} value={formData.password} placeholder={'Enter your password'} />
-                        <Button type={'submit'} children={'Sign Up'} />
-                    </form>
+                
+                {error && (
+                    <div className="mb-4 p-3 bg-red-600 text-white rounded-lg text-sm">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={formHandler}>
+                    <Input 
+                        label={'Fullname*'} 
+                        type={'text'} 
+                        name={'fullName'}
+                        onChange={handleChange} 
+                        value={formData.fullName} 
+                        placeholder={'Enter your Fullname'} 
+                    />
+                    <Input 
+                        label={'Username*'} 
+                        type={'text'} 
+                        name={'username'}
+                        onChange={handleChange} 
+                        value={formData.username} 
+                        placeholder={'Enter your Username'} 
+                    />
+                    <Input 
+                        label={'Avatar*'} 
+                        type={'file'} 
+                        name={'avatar'}
+                        onChange={handleChange} 
+                        placeholder={'Upload your Avatar'} 
+                    />
+                    <Input 
+                        label={'CoverImage*'} 
+                        type={'file'} 
+                        name={'coverImage'}
+                        onChange={handleChange} 
+                        placeholder={'Upload your Cover Image'} 
+                    />
+                    <Input 
+                        label={'Email*'} 
+                        type={'email'} 
+                        name={'email'}
+                        onChange={handleChange} 
+                        value={formData.email} 
+                        placeholder={'Enter your email'} 
+                    />
+                    <Input 
+                        label={'Password*'} 
+                        type={'password'} 
+                        name={'password'}
+                        onChange={handleChange} 
+                        value={formData.password} 
+                        placeholder={'Enter your password'} 
+                    />
+                    <Button 
+                        type={'submit'} 
+                        disabled={loading}
+                    >
+                        {loading ? 'Signing Up...' : 'Sign Up'}
+                    </Button>
                 </form>
+                
+                <div className="mt-6 text-center text-sm text-gray-400">
+                    Already have an account?{' '}
+                    <Link 
+                        to="/login" 
+                        className="text-[#ae7aff] hover:underline font-semibold"
+                    >
+                        Sign In
+                    </Link>
+                </div>
             </div>
         </div>
 

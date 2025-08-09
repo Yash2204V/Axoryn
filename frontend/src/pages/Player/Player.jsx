@@ -113,7 +113,6 @@ function Player() {
         />
       </div>
       <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-        <Header />
         <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
           <aside className="group fixed inset-x-0 bottom-0 z-40 w-full shrink-0 border-t border-white bg-[#121212] px-2 py-2 sm:absolute sm:inset-y-0 sm:max-w-[70px] sm:border-r sm:border-t-0 sm:py-6 sm:hover:max-w-[250px]">
             <ul className="flex justify-around gap-y-2 sm:sticky sm:top-[106px] sm:min-h-[calc(100vh-130px)] sm:flex-col">

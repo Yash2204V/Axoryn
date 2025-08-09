@@ -1,8 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Footer, Header } from '../../components'
+import { useDispatch, useSelector } from 'react-redux'
+import { Footer, Header, VideoCard } from '../../components'
+import { setLoading, setError, setVideos } from '../../features/video/videoSlice'
+import { authenticatedFetch } from '../../utils/apiHelper'
 
 function Home() {
+  const dispatch = useDispatch()
+  const { videos, loading, error } = useSelector((state) => state.video)
+  const { status: isLoggedIn } = useSelector((state) => state.user)
+
+  // Fetch videos on component mount
+  useEffect(() => {
+    fetchVideos()
+  }, [isLoggedIn]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const fetchVideos = async () => {
+    if (!isLoggedIn) {
+      // If user is not logged in, show static content
+      return;
+    }
+
+    dispatch(setLoading(true))
+    dispatch(setError(null))
+
+    try {
+      const response = await authenticatedFetch('/videos?page=1&limit=20')
+      dispatch(setVideos(response.data))
+    } catch (err) {
+      dispatch(setError(err.message || 'Failed to fetch videos'))
+    }
+  }
   return (
     <>
       <div>
@@ -113,7 +141,6 @@ function Home() {
         />
       </div>
       <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-        <Header />
         <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
           <aside className="group fixed inset-x-0 bottom-0 z-40 w-full shrink-0 border-t border-white bg-[#121212] px-2 py-2 sm:absolute sm:inset-y-0 sm:max-w-[70px] sm:border-r sm:border-t-0 sm:py-6 sm:hover:max-w-[250px] lg:sticky lg:max-w-[250px]">
             <ul className="flex justify-around gap-y-2 sm:sticky sm:top-[106px] sm:min-h-[calc(100vh-130px)] sm:flex-col">
@@ -318,72 +345,118 @@ function Home() {
             </ul>
           </aside>
           <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
-
-            {/* // Looping, if video exist map the videos. */}
-            {/* ----------- */}
-            <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
-              
-                <div className="w-full">
-                  <div className="relative mb-2 w-full pt-[56%]">
-                    <Link to={`player/:videoId`}>
-                    <div className="absolute inset-0">
-                      <img
-                        src="https://images.pexels.com/photos/1144276/pexels-photo-1144276.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="Creating Interactive UIs with React and D3"
-                        className="h-full w-full"
-                      />
-                    </div>
-                    </Link>
-                    <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
-                      29:30
-                    </span>
-                  </div>
-                  <div className="flex gap-x-2">
-                    <Link to={`channel/:channelId`} className="h-10 w-10 shrink-0">
-                      <img
-                        src="https://images.pexels.com/photos/1144277/pexels-photo-1144277.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="reactd3"
-                        className="h-full w-full rounded-full"
-                      />
-                    </Link>
-                    <div className="w-full">
-                      <h6 className="mb-1 font-semibold">
-                        Creating Interactive UIs with React and D3
-                      </h6>
-                      <p className="flex text-sm text-gray-200">
-                        20.1k&nbsp;Views · 14 hours ago
-                      </p>
-                      <p className="text-sm text-gray-200">ReactD3</p>
-                    </div>
-                  </div>
+            {/* Loading State */}
+            {loading && (
+              <div className="flex h-full items-center justify-center p-8">
+                <div className="w-full max-w-sm text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#AE7AFF] mx-auto mb-4"></div>
+                  <h5 className="mb-2 font-semibold">Loading videos...</h5>
+                  <p>Please wait while we fetch the latest videos for you.</p>
                 </div>
-            </div>
-            {/* ----------- */}
-            {/* // Else display this */}
-
-            {/* <div class="flex h-full items-center justify-center">
-              <div class="w-full max-w-sm text-center">
-                <p class="mb-3 w-full">
-                  <span class="inline-flex rounded-full bg-[#E4D3FF] p-2 text-[#AE7AFF]">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                      class="w-6">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"></path>
-                    </svg>
-                  </span>
-                </p>
-                <h5 class="mb-2 font-semibold">No videos available</h5>
-                <p>There are no videos here available. Please try to search some thing else.</p>
               </div>
-            </div> */}
+            )}
+
+            {/* Error State */}
+            {error && !loading && (
+              <div className="flex h-full items-center justify-center p-8">
+                <div className="w-full max-w-sm text-center">
+                  <p className="mb-3 w-full">
+                    <span className="inline-flex rounded-full bg-red-100 p-2 text-red-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                        />
+                      </svg>
+                    </span>
+                  </p>
+                  <h5 className="mb-2 font-semibold">Error loading videos</h5>
+                  <p className="mb-4">{error}</p>
+                  <button 
+                    onClick={fetchVideos}
+                    className="rounded bg-[#AE7AFF] px-4 py-2 text-white hover:bg-[#9c67ff] transition-colors"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Videos Grid */}
+            {!loading && !error && videos && videos.length > 0 && (
+              <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
+                {videos.map((video) => (
+                  <VideoCard key={video._id} video={video} />
+                ))}
+              </div>
+            )}
+
+            {/* Empty State */}
+            {!loading && !error && isLoggedIn && (!videos || videos.length === 0) && (
+              <div className="flex h-full items-center justify-center p-8">
+                <div className="w-full max-w-sm text-center">
+                  <p className="mb-3 w-full">
+                    <span className="inline-flex rounded-full bg-[#E4D3FF] p-2 text-[#AE7AFF]">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
+                        />
+                      </svg>
+                    </span>
+                  </p>
+                  <h5 className="mb-2 font-semibold">No videos available</h5>
+                  <p>There are no videos here available. Please try to search something else.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Not Logged In State */}
+            {!isLoggedIn && (
+              <div className="flex h-full items-center justify-center p-8">
+                <div className="w-full max-w-sm text-center">
+                  <p className="mb-3 w-full">
+                    <span className="inline-flex rounded-full bg-[#E4D3FF] p-2 text-[#AE7AFF]">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                        />
+                      </svg>
+                    </span>
+                  </p>
+                  <h5 className="mb-2 font-semibold">Welcome to our platform!</h5>
+                  <p className="mb-4">Please log in to see personalized video content.</p>
+                  <Link 
+                    to="/login"
+                    className="inline-block rounded bg-[#AE7AFF] px-4 py-2 text-white hover:bg-[#9c67ff] transition-colors"
+                  >
+                    Login
+                  </Link>
+                </div>
+              </div>
+            )}
 
           </section>
         </div>
