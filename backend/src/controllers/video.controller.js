@@ -73,7 +73,7 @@ const getAllUserVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, query, sortBy = "createdAt", sortType = "desc", userId } = req.query;
 
     //TODO: get all videos based on query, sort, pagination
-    if(isValidObjectId(userId)){
+    if (isValidObjectId(userId)) {
         throw new ApiError(400, "Invalid Id")
     }
 
@@ -83,7 +83,7 @@ const getAllUserVideos = asyncHandler(async (req, res) => {
     }
 
     const myAggregateUsers = User.aggregate([
-    
+
         {
             $match: {
                 _id: new mongoose.Types.ObjectId(userId),
@@ -130,7 +130,7 @@ const getAllUserVideos = asyncHandler(async (req, res) => {
         } else {
             return res
                 .status(200)
-                .json(new ApiResponse(200,  result, "All User Videos"))
+                .json(new ApiResponse(200, result, "All User Videos"))
         }
     })
 })
@@ -195,13 +195,32 @@ const getVideoById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Video Id is invalid");
     }
 
-    const video = await Video.findByIdAndUpdate(
-        videoId,
+    await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
+
+    const video = await Video.aggregate([
         {
-            $inc: { views: 1 }
+            $match: { _id: new mongoose.Types.ObjectId(videoId) }
         },
-        { new: true }
-    );
+        {
+            $lookup: {
+                from: "likes",
+                localField: "_id",
+                foreignField: "video",
+                as: "likes"
+            }
+        },
+        {
+            $addFields: {
+                likesCount: { $size: "$likes" }
+            }
+        },
+        {
+            $project: {
+                likes: 0 
+            }
+        }
+    ]);
+
 
     return res
         .status(200)
