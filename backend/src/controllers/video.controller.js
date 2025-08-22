@@ -198,29 +198,56 @@ const getVideoById = asyncHandler(async (req, res) => {
     await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
 
     const video = await Video.aggregate([
-        {
-            $match: { _id: new mongoose.Types.ObjectId(videoId) }
-        },
-        {
-            $lookup: {
-                from: "likes",
-                localField: "_id",
-                foreignField: "video",
-                as: "likes"
-            }
-        },
-        {
-            $addFields: {
-                likesCount: { $size: "$likes" }
-            }
-        },
-        {
-            $project: {
-                likes: 0 
-            }
+    {
+        $match: { _id: new mongoose.Types.ObjectId(videoId) }
+    },
+    {
+        $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "video",
+        as: "likes"
         }
-    ]);
+    },
+    {
+        $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "channel"
+        }
+    },
+    {
+        $lookup: {
+        from: "subscriptions",
+        localField: "owner",
+        foreignField: "channel",
+        as: "subscribers"
+        }
+    },
+    { $unwind: "$channel" },
+    {
+        $addFields: {
+        likesCount: { $size: "$likes" },
+        "channel.subscribersCount": { $size: "$subscribers" }
+        }
+    },
+    {
+        $project: {
+        "channel.avatar": 1,
+        "channel.fullName": 1,
+        "channel.subscribersCount": 1,
 
+        createdAt: 1,
+        description: 1,
+        duration: 1,
+        likesCount: 1,
+        title: 1,
+        videoFile: 1,
+        views: 1
+        }
+    }
+    ]);
 
     return res
         .status(200)

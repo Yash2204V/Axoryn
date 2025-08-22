@@ -7,7 +7,7 @@ function TermAndCondition() {
             <Header />
             <section className="relative mx-auto max-w-3xl px-4 py-20">
                 <div className="mb-16 border-b pb-16 text-center">
-                    <h1 className="mb-3 text-sm text-[#ae7aff]">Current as of 20 Jan 2022</h1>
+                    <h1 className="mb-3 text-sm text-[#08e6f5]">Current as of 20 Jan 2022</h1>
                     <h2 className="mb-4 text-4xl font-bold">Terms and conditions</h2>
                     <h3 className="text-gray-300">
                         By accessing our website, you are agreeing to be bound by these terms of

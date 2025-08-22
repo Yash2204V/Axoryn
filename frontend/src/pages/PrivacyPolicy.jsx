@@ -7,7 +7,7 @@ function PrivacyPolicy() {
             <Header />
             <section className="relative mx-auto max-w-3xl px-4 py-20">
                 <div className="mb-16 text-center">
-                    <h1 className="mb-3 text-sm text-[#ae7aff]">Privacy Policy</h1>
+                    <h1 className="mb-3 text-sm text-[#08e6f5]">Privacy Policy</h1>
                     <h2 className="mb-4 text-4xl font-bold">We care about your privacy</h2>
                     <h3 className="text-gray-300">
                         Your privacy is important to us at videoTube. We repect your privacy

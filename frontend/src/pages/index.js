@@ -7,8 +7,6 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import TermAndCondition from "./TermAndCondition";
 import Login from "./Login/Login";
 import Register from "./Register/Register";
-import Demo from "./Demo/Demo";
-import Demo1 from "./Demo/Demo1";
 
 export { 
     Home, 
@@ -19,8 +17,5 @@ export {
     PrivacyPolicy, 
     TermAndCondition,
     Login,
-    Register,
-
-    Demo,
-    Demo1
+    Register
 }

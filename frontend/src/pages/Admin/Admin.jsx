@@ -202,9 +202,9 @@ function Admin() {
                             </svg>
                         </button>
                         <button className="group peer ml-4 flex w-6 shrink-0 flex-wrap gap-y-1.5 sm:hidden">
-                            <span className="block h-[2px] w-full bg-white group-hover:bg-[#ae7aff]" />
-                            <span className="block h-[2px] w-2/3 bg-white group-hover:bg-[#ae7aff]" />
-                            <span className="block h-[2px] w-full bg-white group-hover:bg-[#ae7aff]" />
+                            <span className="block h-[2px] w-full bg-white group-hover:bg-[#08e6f5]" />
+                            <span className="block h-[2px] w-2/3 bg-white group-hover:bg-[#08e6f5]" />
+                            <span className="block h-[2px] w-full bg-white group-hover:bg-[#08e6f5]" />
                         </button>
                         <div className="fixed inset-y-0 right-0 flex w-full max-w-xs shrink-0 translate-x-full flex-col border-l border-white bg-[#121212] duration-200 hover:translate-x-0 peer-focus:translate-x-0 sm:static sm:ml-4 sm:w-auto sm:translate-x-0 sm:border-none">
                             <div className="relative flex w-full items-center justify-between border-b border-white px-4 py-2 sm:hidden">
@@ -282,7 +282,7 @@ function Admin() {
                             </div>
                             <ul className="my-4 flex w-full flex-wrap gap-2 px-4 sm:hidden">
                                 <li className="w-full">
-                                    <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#ae7aff] hover:text-black focus:border-[#ae7aff] focus:bg-[#ae7aff] focus:text-black">
+                                    <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
                                         <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
                                             <svg
                                                 style={{ width: "100%" }}
@@ -303,7 +303,7 @@ function Admin() {
                                     </button>
                                 </li>
                                 <li className="w-full">
-                                    <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#ae7aff] hover:text-black focus:border-[#ae7aff] focus:bg-[#ae7aff] focus:text-black">
+                                    <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
                                         <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
                                             <svg
                                                 style={{ width: "100%" }}
@@ -331,7 +331,7 @@ function Admin() {
                                     </button>
                                 </li>
                                 <li className="w-full">
-                                    <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#ae7aff] hover:text-black focus:border-[#ae7aff] focus:bg-[#ae7aff] focus:text-black">
+                                    <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
                                         <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
                                             <svg
                                                 style={{ width: "100%" }}
@@ -352,7 +352,7 @@ function Admin() {
                                     </button>
                                 </li>
                                 <li className="w-full">
-                                    <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#ae7aff] hover:text-black focus:border-[#ae7aff] focus:bg-[#ae7aff] focus:text-black">
+                                    <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
                                         <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
                                             <svg
                                                 style={{ width: "100%" }}
@@ -406,7 +406,7 @@ function Admin() {
                                 </p>
                             </div>
                             <div className="block">
-                                <button className="inline-flex items-center gap-x-2 bg-[#ae7aff] px-3 py-2 font-semibold text-black">
+                                <button className="inline-flex items-center gap-x-2 bg-[#08e6f5] px-3 py-2 font-semibold text-black">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -429,7 +429,7 @@ function Admin() {
                         <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4">
                             <div className="border p-4">
                                 <div className="mb-4 block">
-                                    <span className="inline-block h-7 w-7 rounded-full bg-[#E4D3FF] p-1 text-[#ae7aff]">
+                                    <span className="inline-block h-7 w-7 rounded-full bg-[#E4D3FF] p-1 text-[#08e6f5]">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -456,7 +456,7 @@ function Admin() {
                             </div>
                             <div className="border p-4">
                                 <div className="mb-4 block">
-                                    <span className="inline-block h-7 w-7 rounded-full bg-[#E4D3FF] p-1 text-[#ae7aff]">
+                                    <span className="inline-block h-7 w-7 rounded-full bg-[#E4D3FF] p-1 text-[#08e6f5]">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -478,7 +478,7 @@ function Admin() {
                             </div>
                             <div className="border p-4">
                                 <div className="mb-4 block">
-                                    <span className="inline-block h-7 w-7 rounded-full bg-[#E4D3FF] p-1 text-[#ae7aff]">
+                                    <span className="inline-block h-7 w-7 rounded-full bg-[#E4D3FF] p-1 text-[#08e6f5]">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -525,7 +525,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -563,7 +563,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -579,7 +579,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -610,7 +610,7 @@ function Admin() {
                                                         id="vid-pub-2"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -648,7 +648,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -664,7 +664,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -695,7 +695,7 @@ function Admin() {
                                                         id="vid-pub-3"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -733,7 +733,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -749,7 +749,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -780,7 +780,7 @@ function Admin() {
                                                         id="vid-pub-4"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -818,7 +818,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -834,7 +834,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -865,7 +865,7 @@ function Admin() {
                                                         id="vid-pub-5"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -903,7 +903,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -919,7 +919,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -951,7 +951,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -989,7 +989,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1005,7 +1005,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1036,7 +1036,7 @@ function Admin() {
                                                         id="vid-pub-7"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1074,7 +1074,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1090,7 +1090,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1122,7 +1122,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1160,7 +1160,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1176,7 +1176,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1208,7 +1208,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1246,7 +1246,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1262,7 +1262,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1294,7 +1294,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1332,7 +1332,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1348,7 +1348,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1379,7 +1379,7 @@ function Admin() {
                                                         id="vid-pub-11"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1417,7 +1417,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1433,7 +1433,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1464,7 +1464,7 @@ function Admin() {
                                                         id="vid-pub-12"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1502,7 +1502,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1518,7 +1518,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1550,7 +1550,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1588,7 +1588,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1604,7 +1604,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1635,7 +1635,7 @@ function Admin() {
                                                         id="vid-pub-14"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1673,7 +1673,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1689,7 +1689,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1721,7 +1721,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1759,7 +1759,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1775,7 +1775,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1807,7 +1807,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1845,7 +1845,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1861,7 +1861,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1892,7 +1892,7 @@ function Admin() {
                                                         id="vid-pub-17"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -1930,7 +1930,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1946,7 +1946,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -1977,7 +1977,7 @@ function Admin() {
                                                         id="vid-pub-18"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -2015,7 +2015,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2031,7 +2031,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2063,7 +2063,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -2101,7 +2101,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2117,7 +2117,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2149,7 +2149,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -2187,7 +2187,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2203,7 +2203,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2234,7 +2234,7 @@ function Admin() {
                                                         id="vid-pub-21"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -2272,7 +2272,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2288,7 +2288,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2319,7 +2319,7 @@ function Admin() {
                                                         id="vid-pub-22"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -2357,7 +2357,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2373,7 +2373,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2405,7 +2405,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -2443,7 +2443,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2459,7 +2459,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2490,7 +2490,7 @@ function Admin() {
                                                         id="vid-pub-24"
                                                         className="peer sr-only"
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -2528,7 +2528,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2544,7 +2544,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2576,7 +2576,7 @@ function Admin() {
                                                         className="peer sr-only"
                                                         defaultChecked=""
                                                     />
-                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7" />
+                                                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#08e6f5] peer-checked:after:left-7" />
                                                 </label>
                                             </div>
                                         </td>
@@ -2612,7 +2612,7 @@ function Admin() {
                                         </td>
                                         <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                                             <div className="flex gap-4">
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
@@ -2628,7 +2628,7 @@ function Admin() {
                                                         />
                                                     </svg>
                                                 </button>
-                                                <button className="h-5 w-5 hover:text-[#ae7aff]">
+                                                <button className="h-5 w-5 hover:text-[#08e6f5]">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
