@@ -59,7 +59,8 @@ const getUserTweets = asyncHandler(async (req, res) => {
                 fullName: 1,
                 username: 1,
                 email: 1,
-                tweets: 1
+                tweets: 1,
+                avatar: 1
             }
         }
     ]);

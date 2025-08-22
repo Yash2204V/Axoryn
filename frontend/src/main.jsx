@@ -13,7 +13,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path='login' element={<Login />} />
       <Route path='register' element={<Register />} />
-      <Route path='channel/:channelID' element={<Channel />} />
+      <Route path='channel/:username' element={<Channel />} />
       <Route path='player/:videoId' element={<Player />} />
       <Route path='privacy-policy' element={<PrivacyPolicy />} />
       <Route path='term-and-condition' element={<TermAndCondition />} />

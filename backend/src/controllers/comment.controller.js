@@ -49,6 +49,8 @@ const getVideoComments = asyncHandler(async (req, res) => {
                 content: 1,
                 "commentor.username": 1,
                 "commentor.avatar": 1,
+                "commentor.fullName": 1,
+                "commentor.createdAt": 1,
             }
         }
     ]);

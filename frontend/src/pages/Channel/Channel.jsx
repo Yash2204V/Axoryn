@@ -1,9 +1,30 @@
 import { useState } from 'react'
-import { Aside } from '../../components'
+import { Aside, PlaylistCard, SubscribedCard, VideoCard } from '../../components'
+import { useGetUserChannelProfileQuery } from '../../services/user/userApi';
+import { useParams } from 'react-router-dom';
+import { useGetSubscribedChannelsQuery, useToggleSubscriptionMutation } from '../../services/subscription/subscriptionApi';
+import { useGetAllUserVideosQuery } from '../../services/video/videoApi';
+import { useGetUserPlaylistsQuery } from '../../services/playlist/playlistApi';
+import { useGetUserTweetQuery } from '../../services/tweet/tweetApi';
+import TweetCard from '../../components/TweetCard';
 
 function Channel() {
-
+  const { username } = useParams();
   const [switchState, setSwitchState] = useState('videos');
+  
+  const { data, refetch } = useGetUserChannelProfileQuery(username);
+  const channel = data?.data;
+
+  const {data: playlistsData } = useGetUserPlaylistsQuery(channel?._id, { skip: !channel?._id });
+
+  const playlists = playlistsData?.data || [];
+
+  const [toggleSubscription] = useToggleSubscriptionMutation();
+
+  const handleSubscribe = () => {
+    toggleSubscription(channel?._id).unwrap();
+    refetch();
+  }
 
   return (
     <>
@@ -86,7 +107,7 @@ function Channel() {
             <div className="relative min-h-[150px] w-full pt-[16.28%]">
               <div className="absolute inset-0 overflow-hidden">
                 <img
-                  src="https://images.pexels.com/photos/1092424/pexels-photo-1092424.jpeg?auto=compress"
+                  src={channel?.coverImage || "https://images.pexels.com/photos/1092424/pexels-photo-1092424.jpeg?auto=compress"}
                   alt="cover-photo"
                 />
               </div>
@@ -95,21 +116,21 @@ function Channel() {
               <div className="flex flex-wrap gap-4 pb-4 pt-6">
                 <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
                   <img
-                    src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="Channel"
+                    src={channel?.avatar || "https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+                    alt={channel?.username || "channel-avatar"}
                     className="h-full w-full"
                   />
                 </span>
                 <div className="mr-auto inline-block">
-                  <h1 className="font-bolg text-xl">React Patterns</h1>
-                  <p className="text-sm text-gray-400">@reactpatterns</p>
+                  <h1 className="font-bolg text-xl">{channel?.fullName}</h1>
+                  <p className="text-sm text-gray-400">@{channel?.username}</p>
                   <p className="text-sm text-gray-400">
-                    600k Subscribers&nbsp;·&nbsp;220 Subscribed
+                    {channel?.subscribersCount} Subscribers&nbsp;·&nbsp;{channel?.channelsSubscribedToCount} Subscribed
                   </p>
                 </div>
                 <div className="inline-block">
                   <div className="inline-flex min-w-[145px] justify-end">
-                    <button className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#08e6f5] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
+                    <button onClick={handleSubscribe} className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#08e6f5] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
                       <span className="inline-block w-5">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -126,67 +147,71 @@ function Channel() {
                           />
                         </svg>
                       </span>
-                      <span className="group-focus/btn:hidden">Subscribe</span>
-                      <span className="hidden group-focus/btn:block">
-                        Subscribed
-                      </span>
+                      {channel?.isSubscribed ? (<span className="group-focus/btn">Subscribed</span>) : (<span className="group-focus/btn">Subscribe</span>)}
                     </button>
                   </div>
                 </div>
               </div>
               <ul className="no-scrollbar flex flex-row gap-x-2 overflow-auto border-b-2 border-gray-400 bg-[#121212] py-2 sm:top-[82px]">
                 <li className="w-full">
-                  <button onClick={() => {
-                    setSwitchState('videos')
-                  }} className="w-full border-b-2 border-[#08e6f5] bg-white px-3 py-1.5 text-[#08e6f5]">
+                  <button
+                    onClick={() => setSwitchState('videos')}
+                    className={`w-full border-b-2 px-3 py-1.5 
+                      ${switchState === 'videos' 
+                        ? 'border-[#08e6f5] text-[#08e6f5] bg-white' 
+                        : 'border-transparent text-gray-400'}`}
+                  >
                     Videos
                   </button>
                 </li>
                 <li className="w-full">
-                  <button onClick={() => {
-                    setSwitchState('playlists')
-                  }} className="w-full border-b-2 border-transparent px-3 py-1.5 text-gray-400">
-                    Playlist
+                  <button
+                    onClick={() => setSwitchState('playlists')}
+                    className={`w-full border-b-2 px-3 py-1.5 
+                      ${switchState === 'playlists' 
+                        ? 'border-[#08e6f5] text-[#08e6f5] bg-white' 
+                        : 'border-transparent text-gray-400'}`}
+                  >
+                    Playlists
                   </button>
                 </li>
                 <li className="w-full">
-                  <button onClick={() => {
-                    setSwitchState('tweets')
-                  }} className="w-full border-b-2 border-transparent px-3 py-1.5 text-gray-400">
+                  <button
+                    onClick={() => setSwitchState('tweets')}
+                    className={`w-full border-b-2 px-3 py-1.5 
+                      ${switchState === 'tweets' 
+                        ? 'border-[#08e6f5] text-[#08e6f5] bg-white' 
+                        : 'border-transparent text-gray-400'}`}
+                  >
                     Tweets
                   </button>
                 </li>
                 <li className="w-full">
-                  <button onClick={() => {
-                    setSwitchState('subscribed')
-                  }} className="w-full border-b-2 border-transparent px-3 py-1.5 text-gray-400">
+                  <button
+                    onClick={() => setSwitchState('subscribed')}
+                    className={`w-full border-b-2 px-3 py-1.5 
+                      ${switchState === 'subscribed' 
+                        ? 'border-[#08e6f5] text-[#08e6f5] bg-white' 
+                        : 'border-transparent text-gray-400'}`}
+                  >
                     Subscribed
                   </button>
                 </li>
               </ul>
               <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 pt-2">
-                {/* Videos, Playlists, Tweet, Subscribed Conditional Rendering Mapping Here */}
-                <div className="w-full">
-                  <div className="relative mb-2 w-full pt-[56%]">
-                    <div className="absolute inset-0">
-                      <img
-                        src="https://images.pexels.com/photos/3561339/pexels-photo-3561339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="JavaScript Fundamentals: Variables and Data Types"
-                        className="h-full w-full"
-                      />
-                    </div>
-                    <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
-                      20:45
-                    </span>
-                  </div>
-                  <h6 className="mb-1 font-semibold">
-                    JavaScript Fundamentals: Variables and Data Types
-                  </h6>
-                  <p className="flex text-sm text-gray-200">
-                    10.3k&nbsp;Views · 44 minutes ago
-                  </p>
-                </div>
-                {/* ... More videos */}
+                  {/* Videos, Playlists, Tweet, Subscribed Conditional Rendering Mapping Here */}
+                  { switchState === "videos" && 
+                    <VideoCard data={channel?._id} /> 
+                  }
+                  {switchState === "tweets" &&
+                    <TweetCard data={channel?._id} />
+                  }
+                  {switchState === "subscribed" && 
+                    <SubscribedCard data={channel?._id} />
+                  }
+                  {switchState === "playlists" && playlists?.map((playlist, idx) => (
+                    <PlaylistCard key={playlist._id || idx} playlist={playlist} />
+                  ))}
               </div>
             </div>
           </section>

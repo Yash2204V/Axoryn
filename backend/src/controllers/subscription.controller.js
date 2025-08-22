@@ -9,6 +9,8 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 const toggleSubscription = asyncHandler(async (req, res) => {
     const { channelId } = req.params
     // TODO: toggle subscription
+    console.log("I am in the backend bro............");
+
 
     if (!isValidObjectId(channelId)) {
         throw new ApiError(400, "Invalid Channel ID")
@@ -46,7 +48,7 @@ const toggleSubscription = asyncHandler(async (req, res) => {
 
 // controller to return subscriber list of a channel
 const getUserChannelSubscribers = asyncHandler(async (req, res) => {
-    const { channelId } = req.params
+    const { channelId } = req.params;    
 
     if (!isValidObjectId(channelId)) {
         throw new ApiError(400, "Invalid Channel Id")
@@ -107,13 +109,29 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
                 foreignField: "_id",
                 as: "channelDetails"
             }
-        }, {
+        }, 
+        {
+            $lookup: {
+                from: "users",
+                localField: "subscriber",
+                foreignField: "_id",
+                as: "subscriberDetails"
+            }
+        },
+        {
+            $addFields: {
+                subscriberCount: { $size: "$subscriberDetails" }
+            }
+        },
+        {
             $unwind: "$channelDetails"
         }, {
             $project: {
                 _id: 0,
                 username: "$channelDetails.username",
-                avatar: "$channelDetails.avatar"
+                avatar: "$channelDetails.avatar",
+                fullName: "$channelDetails.fullName",
+                subscriberCount: 1
             }
         }
     ])

@@ -70,70 +70,62 @@ const getAllVideos = asyncHandler(async (req, res) => {
 });
 
 const getAllUserVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 10, query, sortBy = "createdAt", sortType = "desc", userId } = req.query;
+    let { page = 1, limit = 10, query, sortBy = "createdAt", sortType = "desc", userId } = req.query;
 
-    //TODO: get all videos based on query, sort, pagination
-    if (isValidObjectId(userId)) {
-        throw new ApiError(400, "Invalid Id")
+    if (!userId) {
+        throw new ApiError(400, "userId is required");
+    }
+    if (!isValidObjectId(userId)) {
+        throw new ApiError(400, "Invalid userId");
     }
 
-    const options = {
-        page,
-        limit
-    }
+    page = parseInt(page);
+    limit = parseInt(limit);
 
-    const myAggregateUsers = User.aggregate([
-
+    const myAggregateVideos = Video.aggregate([
         {
             $match: {
-                _id: new mongoose.Types.ObjectId(userId),
+                owner: new mongoose.Types.ObjectId(userId),
             },
         },
         {
             $lookup: {
-                from: "videos",
-                localField: "_id",
-                foreignField: "owner",
-                as: "videos",
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "channel",
             },
         },
-        {
-            $unwind: "$videos",
-        },
+        { $unwind: "$channel" },
         {
             $match: {
-                ...(query && { "videos.title": { $regex: query, $options: "i" } }),
+                ...(query && { title: { $regex: query, $options: "i" } }),
             },
         },
         {
             $sort: {
-                [`videos.${sortBy}`]: sortType === "asc" ? 1 : -1,
+                [sortBy]: sortType === "asc" ? 1 : -1,
             },
         },
+        { $skip: (page - 1) * limit },
+        { $limit: limit },
         {
-            $skip: (pageNumber - 1) * limitNumber,
-        },
-        {
-            $limit: limitNumber,
-        },
-        {
-            $group: {
-                _id: "$_id",
-                videos: { $push: "$videos" },
-            },
-        },
+            $project: {
+                "channel.email": 0,
+                "channel.password": 0,
+                "channel.refreshToken": 0,
+                "channel.updatedAt": 0,
+            }
+        }
     ]);
 
-    User.aggregatePaginate(myAggregateUsers, options, function (err, result) {
-        if (err) {
-            throw new ApiError(400, err)
-        } else {
-            return res
-                .status(200)
-                .json(new ApiResponse(200, result, "All User Videos"))
-        }
-    })
-})
+    const result = await Video.aggregatePaginate(myAggregateVideos, { page, limit });
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, result, "All User Videos with Channel Info"));
+});
+
 
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description } = req.body;
@@ -198,55 +190,56 @@ const getVideoById = asyncHandler(async (req, res) => {
     await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
 
     const video = await Video.aggregate([
-    {
-        $match: { _id: new mongoose.Types.ObjectId(videoId) }
-    },
-    {
-        $lookup: {
-        from: "likes",
-        localField: "_id",
-        foreignField: "video",
-        as: "likes"
-        }
-    },
-    {
-        $lookup: {
-        from: "users",
-        localField: "owner",
-        foreignField: "_id",
-        as: "channel"
-        }
-    },
-    {
-        $lookup: {
-        from: "subscriptions",
-        localField: "owner",
-        foreignField: "channel",
-        as: "subscribers"
-        }
-    },
-    { $unwind: "$channel" },
-    {
-        $addFields: {
-        likesCount: { $size: "$likes" },
-        "channel.subscribersCount": { $size: "$subscribers" }
-        }
-    },
-    {
-        $project: {
-        "channel.avatar": 1,
-        "channel.fullName": 1,
-        "channel.subscribersCount": 1,
+        {
+            $match: { _id: new mongoose.Types.ObjectId(videoId) }
+        },
+        {
+            $lookup: {
+                from: "likes",
+                localField: "_id",
+                foreignField: "video",
+                as: "likes"
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "channel"
+            }
+        },
+        {
+            $lookup: {
+                from: "subscriptions",
+                localField: "owner",
+                foreignField: "channel",
+                as: "subscribers"
+            }
+        },
+        { $unwind: "$channel" },
+        {
+            $addFields: {
+                likesCount: { $size: "$likes" },
+                "channel.subscribersCount": { $size: "$subscribers" }
+            }
+        },
+        {
+            $project: {
+                "channel.avatar": 1,
+                "channel.fullName": 1,
+                "channel.subscribersCount": 1,
+                "channel.username": 1,
 
-        createdAt: 1,
-        description: 1,
-        duration: 1,
-        likesCount: 1,
-        title: 1,
-        videoFile: 1,
-        views: 1
+                createdAt: 1,
+                description: 1,
+                duration: 1,
+                likesCount: 1,
+                title: 1,
+                videoFile: 1,
+                views: 1
+            }
         }
-    }
     ]);
 
     return res

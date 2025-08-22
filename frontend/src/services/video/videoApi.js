@@ -19,8 +19,9 @@ export const videoApi = createApi({
             invalidatesTags: ['Video']
         }),
         getAllUserVideos: builder.query({
-            query: () => '/videos/user/videos',
-            providesTags: ['Video']
+            query: ({ userId, page = 1, limit = 10, sortBy = "createdAt", sortType = "desc" }) => 
+                `/videos/user/videos?userId=${userId}&page=${page}&limit=${limit}&sortBy=${sortBy}&sortType=${sortType}`,
+            providesTags: ['Video'],
         }),
         getVideoById: builder.query({
             query: (videoId) => `/videos/${videoId}`,

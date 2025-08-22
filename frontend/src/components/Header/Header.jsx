@@ -8,15 +8,15 @@ function Header() {
   const { data, isLoading, refetch } = useGetCurrentUserQuery();
   const [logoutUser, { isLoading: isLoggingOut }] = useLogoutUserMutation();
   const userData = data?.data;
-
+  console.log("Header UserData: ", userData); // --- IGNORE ---
 
   const isAuthenticated = !!userData || !!localStorage.getItem('token');
-  
+
   useEffect(() => {
     if (localStorage.getItem('token') && !userData) {
       refetch();
     }
-  }, [refetch, userData]);
+  }, [refetch, userData, isAuthenticated]);
 
   const handleLogout = async () => {
     try {

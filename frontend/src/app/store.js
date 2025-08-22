@@ -5,6 +5,8 @@ import { commentApi } from "../services/comment/commentApi";
 import { likeApi } from "../services/like/likeApi";
 import { dashboardApi } from "../services/dashboard/dashboardApi.js";
 import { userApi } from "../services/user/userApi.js";
+import { subscriptionApi } from "../services/subscription/subscriptionApi.js";
+import { tweetApi } from "../services/tweet/tweetApi.js";
 
 const store = configureStore({
     reducer: {
@@ -14,6 +16,8 @@ const store = configureStore({
         [commentApi.reducerPath]: commentApi.reducer,
         [likeApi.reducerPath]: likeApi.reducer,
         [dashboardApi.reducerPath]: dashboardApi.reducer,
+        [subscriptionApi.reducerPath]: subscriptionApi.reducer,
+        [tweetApi.reducerPath]: tweetApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
@@ -22,7 +26,9 @@ const store = configureStore({
             playlistApi.middleware,
             commentApi.middleware,
             likeApi.middleware,
-            dashboardApi.middleware
+            dashboardApi.middleware,
+            subscriptionApi.middleware,
+            tweetApi.middleware
         ),
 });
 

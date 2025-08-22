@@ -6,7 +6,9 @@ import Button from "./Button";
 import VideoCard from "./VideoCard";
 import Logo from "./Logo";
 import Aside from "./Aside/Aside";
-
+import TweetCard from "./TweetCard";
+import SubscribedCard from "./SubscribedCard";
+import PlaylistCard from "./PlaylistCard";
 
 export { 
     Header, 
@@ -16,5 +18,8 @@ export {
     Button,
     VideoCard,
     Logo,
-    Aside
+    Aside,
+    TweetCard,
+    SubscribedCard,
+    PlaylistCard
 }

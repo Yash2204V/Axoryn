@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { Aside, VideoCard } from '../../components'
 import { useGetAllVideosQuery } from '../../services/video/videoApi';
 
 function Home() {
-  
   const { data, error, isLoading } = useGetAllVideosQuery();
   const videos = data?.data?.docs || [];
   
@@ -166,13 +163,9 @@ function Home() {
             )}
 
             {/* Videos Grid */}
-            {!isLoading && !error && videos && videos.length > 0 && (
               <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
-                {videos.map((video) => (
-                  <VideoCard key={video._id} video={video} />
-                ))}
+                  <VideoCard userSpecificVideos={true} />
               </div>
-            )}
 
             {/* Empty State */}
             {!isLoading && !error && (!videos || videos.length === 0) && (
