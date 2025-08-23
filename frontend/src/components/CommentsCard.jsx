@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { useAddCommentMutation, useGetVideoCommentsQuery } from '../services/comment/commentApi';
 import { formatTimeAgo } from '../utils/formatTimeAgo';
 import Button from './Button';
 
-function CommentsCard({videoId}) {
+const CommentsCard = memo(({videoId}) => {
 
     const { data: commentsData, refetch } = useGetVideoCommentsQuery(videoId);
     const comments = commentsData?.data?.docs || [];
@@ -73,6 +73,6 @@ function CommentsCard({videoId}) {
             </div>
         </>
         )
-    }
+    })
 
 export default CommentsCard

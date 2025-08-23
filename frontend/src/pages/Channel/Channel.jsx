@@ -29,72 +29,12 @@ function Channel() {
           <link
             rel="preload"
             as="image"
-            href="https://images.pexels.com/photos/1092424/pexels-photo-1092424.jpeg?auto=compress"
+            href={channel?.avatar}
           />
           <link
             rel="preload"
             as="image"
-            href="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/3561339/pexels-photo-3561339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/2519817/pexels-photo-2519817.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/1739849/pexels-photo-1739849.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/1739854/pexels-photo-1739854.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/1144256/pexels-photo-1144256.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/1144260/pexels-photo-1144260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/1144276/pexels-photo-1144276.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/1144274/pexels-photo-1144274.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/1144231/pexels-photo-1144231.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/1144250/pexels-photo-1144250.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/1115824/pexels-photo-1115824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          />
-          <link
-            rel="preload"
-            as="image"
-            href="https://images.pexels.com/photos/1115808/pexels-photo-1115808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            href={channel?.coverImage}
           />
       </div>
       <div className="h-screen overflow-y-auto bg-[#121212] text-white">

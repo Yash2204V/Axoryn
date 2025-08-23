@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom'
 import { formatViews } from '../utils/formatViews';
 import { formatDuration } from '../utils/formatDuration';
 import { formatTimeAgo } from '../utils/formatTimeAgo';
 import { useGetAllUserVideosQuery, useGetAllVideosQuery } from '../services/video/videoApi';
 
-function VideoCard({ data, userSpecificVideos=true }) {
+const VideoCard = memo(({ data, userSpecificVideos=true }) => {
 
   const { data: allVideos, error: allError, isLoading: allLoading } = useGetAllVideosQuery();
   const { data: userVideos, error: userError, isLoading: userLoading } = useGetAllUserVideosQuery(
@@ -71,6 +72,6 @@ function VideoCard({ data, userSpecificVideos=true }) {
       ))}
     </>
   );
-}
+})
 
 export default VideoCard;

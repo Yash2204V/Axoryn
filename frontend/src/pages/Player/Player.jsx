@@ -11,10 +11,10 @@ function Player() {
   const { videoId } = useParams();
   const { data, error, isLoading, refetch } = useGetVideoByIdQuery(videoId);
   const video = data?.data?.[0];
-  
-  const [toggleVideoLike, { isLoading: isLiking }] = useToggleVideoLikeMutation();  
+
+  const [toggleVideoLike, { isLoading: isLiking }] = useToggleVideoLikeMutation();
   const [toggleSubscription] = useToggleSubscriptionMutation();
-  
+
   const handleLike = async () => {
     try {
       await toggleVideoLike(videoId).unwrap();
@@ -23,7 +23,7 @@ function Player() {
       console.error('Failed to toggle like:', error);
     }
   };
-  
+
   const handleSubscribe = () => {
     toggleSubscription(video.channel?._id).unwrap();
     refetch();
@@ -32,111 +32,9 @@ function Player() {
   return (
     <>
       <div>
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/18264716/pexels-photo-18264716/free-photo-of-man-people-laptop-internet.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-woman-reading-book-on-a-bench.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/18107025/pexels-photo-18107025/free-photo-of-man-reading-newspaper.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/18096595/pexels-photo-18096595/free-photo-of-music-on-street.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/18094275/pexels-photo-18094275.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/13847596/pexels-photo-13847596.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/7775637/pexels-photo-7775637.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/3532545/pexels-photo-3532545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/3532552/pexels-photo-3532552.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/3561339/pexels-photo-3561339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/2519817/pexels-photo-2519817.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/1739849/pexels-photo-1739849.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/1739854/pexels-photo-1739854.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/1144256/pexels-photo-1144256.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/1144260/pexels-photo-1144260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/1144276/pexels-photo-1144276.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/1144274/pexels-photo-1144274.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/1144231/pexels-photo-1144231.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/1144250/pexels-photo-1144250.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/1115824/pexels-photo-1115824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://images.pexels.com/photos/1115808/pexels-photo-1115808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
+        <video preload="auto" controls className='hidden'>
+          <source src={video?.videoFile} type="video/mp4" />
+        </video>
       </div>
       <div className="h-screen overflow-y-auto bg-[#121212] text-white">
         <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
@@ -281,7 +179,7 @@ function Player() {
                               </span>
                               Save
                             </button>
-                            <SavePlaylist />
+                            <SavePlaylist videoId={videoId} />
                           </div>
                         </div>
                       </div>
@@ -301,7 +199,7 @@ function Player() {
                         </div>
                       </div>
                       <div className="block">
-                        <button  onClick={handleSubscribe} className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#08e6f5] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
+                        <button onClick={handleSubscribe} className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#08e6f5] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
                           <span className="inline-block w-5">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -332,9 +230,9 @@ function Player() {
                   <CommentsCard videoId={videoId} />
                 </div>
                 <div className="col-span-12 flex w-full shrink-0 flex-col gap-3 lg:w-[350px] xl:w-[400px]">
-                    <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
-                      <VideoCard userSpecificVideos={false} />
-                    </div>
+                  <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
+                    <VideoCard userSpecificVideos={false} />
+                  </div>
                 </div>
               </div>
             )}
