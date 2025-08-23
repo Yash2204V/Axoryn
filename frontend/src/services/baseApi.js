@@ -6,7 +6,7 @@ export const baseApi = fetchBaseQuery({
     prepareHeaders: (headers, { endpoint }) => {
         const token = localStorage.getItem('token');
         
-        const noAuthEndpoints = ['registerUser', 'loginUser', 'refreshAccessToken' ,'getAllVideos', 'getVideoById'];
+        const noAuthEndpoints = ['registerUser', 'loginUser', 'refreshAccessToken' ,'getAllVideos'];
 
         if(!noAuthEndpoints.includes(endpoint) && token){
             headers.set('Authorization', `Bearer ${token}`);

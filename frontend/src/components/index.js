@@ -8,7 +8,10 @@ import Logo from "./Logo";
 import Aside from "./Aside/Aside";
 import TweetCard from "./TweetCard";
 import SubscribedCard from "./SubscribedCard";
-import PlaylistCard from "./PlaylistCard";
+import ReloadBtn from "./ReloadBtn";
+import CommentsCard from "./CommentsCard";
+import PlaylistCard from "./Playlist/PlaylistCard";
+import SavePlaylist from "./Playlist/SavePlaylist";
 
 export { 
     Header, 
@@ -21,5 +24,8 @@ export {
     Aside,
     TweetCard,
     SubscribedCard,
-    PlaylistCard
+    ReloadBtn,
+    CommentsCard,
+    PlaylistCard,
+    SavePlaylist
 }

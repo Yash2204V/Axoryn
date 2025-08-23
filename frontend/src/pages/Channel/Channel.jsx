@@ -2,10 +2,8 @@ import { useState } from 'react'
 import { Aside, PlaylistCard, SubscribedCard, VideoCard } from '../../components'
 import { useGetUserChannelProfileQuery } from '../../services/user/userApi';
 import { useParams } from 'react-router-dom';
-import { useGetSubscribedChannelsQuery, useToggleSubscriptionMutation } from '../../services/subscription/subscriptionApi';
-import { useGetAllUserVideosQuery } from '../../services/video/videoApi';
+import { useToggleSubscriptionMutation } from '../../services/subscription/subscriptionApi';
 import { useGetUserPlaylistsQuery } from '../../services/playlist/playlistApi';
-import { useGetUserTweetQuery } from '../../services/tweet/tweetApi';
 import TweetCard from '../../components/TweetCard';
 
 function Channel() {
@@ -16,7 +14,6 @@ function Channel() {
   const channel = data?.data;
 
   const {data: playlistsData } = useGetUserPlaylistsQuery(channel?._id, { skip: !channel?._id });
-
   const playlists = playlistsData?.data || [];
 
   const [toggleSubscription] = useToggleSubscriptionMutation();

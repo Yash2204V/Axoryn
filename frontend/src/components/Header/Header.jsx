@@ -2,13 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useGetCurrentUserQuery, useLogoutUserMutation } from "../../services/user/userApi.js";
 import Logo from "../Logo.jsx";
 import { useEffect } from "react";
+import ReloadBtn from "../ReloadBtn.jsx";
 
-function Header() {
+function Header({ onReload }) {
   const navigate = useNavigate();
   const { data, isLoading, refetch } = useGetCurrentUserQuery();
   const [logoutUser, { isLoading: isLoggingOut }] = useLogoutUserMutation();
+
   const userData = data?.data;
-  console.log("Header UserData: ", userData); // --- IGNORE ---
 
   const isAuthenticated = !!userData || !!localStorage.getItem('token');
 
@@ -61,23 +62,26 @@ function Header() {
             </svg>
           </span>
         </div>
-        <button className="ml-auto sm:hidden">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-            className=" h-6 w-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
-        </button>
+        <div className="ml-auto flex items-center gap-4 pl-3">
+          <ReloadBtn onReload={onReload} isLoading={isLoading} />
+          <button className="ml-auto sm:hidden text-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+              className=" h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </button>
+        </div>
         <button className="group peer ml-4 flex w-6 shrink-0 flex-wrap gap-y-1.5 sm:hidden">
           <span className="block h-[2px] w-full bg-white group-hover:bg-[#08e6f5]" />
           <span className="block h-[2px] w-2/3 bg-white group-hover:bg-[#08e6f5]" />

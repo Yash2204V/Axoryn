@@ -31,11 +31,12 @@ router
         verifyJWT, publishAVideo
     );
     
+    
+router.use(verifyJWT); 
+
 router
     .route("/:videoId")
     .get(getVideoById)
-
-router.use(verifyJWT); 
 
 router
     .route("/user/videos")

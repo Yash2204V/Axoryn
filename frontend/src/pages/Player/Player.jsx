@@ -1,26 +1,20 @@
 import { Link, useParams } from 'react-router-dom'
-import { useGetAllVideosQuery, useGetVideoByIdQuery } from '../../services/video/videoApi'
-import { Aside } from '../../components';
+import { useGetVideoByIdQuery } from '../../services/video/videoApi'
+import { Aside, CommentsCard, SavePlaylist, VideoCard } from '../../components';
 import { formatViews } from '../../utils/formatViews';
 import { formatTimeAgo } from '../../utils/formatTimeAgo';
 import { useToggleVideoLikeMutation } from '../../services/like/likeApi';
-import { useGetVideoCommentsQuery } from '../../services/comment/commentApi';
-import { formatDuration } from '../../utils/formatDuration';
+import { useToggleSubscriptionMutation } from '../../services/subscription/subscriptionApi';
 
 function Player() {
 
   const { videoId } = useParams();
   const { data, error, isLoading, refetch } = useGetVideoByIdQuery(videoId);
-  const { data: videoData} = useGetAllVideosQuery();
-  const videos = videoData?.data?.docs || [];
   const video = data?.data?.[0];
-  console.log("videos", videos);
   
   const [toggleVideoLike, { isLoading: isLiking }] = useToggleVideoLikeMutation();  
-  const { data: commentsData } = useGetVideoCommentsQuery(videoId);  
+  const [toggleSubscription] = useToggleSubscriptionMutation();
   
-  const comments = commentsData?.data?.docs || [];
-
   const handleLike = async () => {
     try {
       await toggleVideoLike(videoId).unwrap();
@@ -28,6 +22,11 @@ function Player() {
     } catch (error) {
       console.error('Failed to toggle like:', error);
     }
+  };
+  
+  const handleSubscribe = () => {
+    toggleSubscription(video.channel?._id).unwrap();
+    refetch();
   };
 
   return (
@@ -147,7 +146,7 @@ function Player() {
             {isLoading && (
               <div className="flex h-full items-center justify-center p-8">
                 <div className="w-full max-w-sm text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#AE7AFF] mx-auto mb-4"></div>
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#08e6f5] mx-auto mb-4"></div>
                   <h5 className="mb-2 font-semibold">Loading video...</h5>
                   <p>Please wait while we load the video for you.</p>
                 </div>
@@ -179,7 +178,7 @@ function Player() {
                   <p className="mb-4">{error?.data?.message || error?.message || 'Failed to load video'}</p>
                   <button
                     onClick={() => window.location.reload()}
-                    className="rounded bg-[#AE7AFF] px-4 py-2 text-white hover:bg-[#9c67ff] transition-colors"
+                    className="rounded bg-[#08e6f5] px-4 py-2 text-white hover:bg-[#9c67ff] transition-colors"
                   >
                     Try Again
                   </button>
@@ -224,7 +223,7 @@ function Player() {
                               disabled={isLiking}
                               className="group/btn flex items-center gap-x-2 border-r border-gray-700 px-4 py-1.5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                              <span className="inline-block w-5 group-focus/btn:text-[#ae7aff]">
+                              <span className="inline-block w-5 group-focus/btn:text-[#08e6f5]">
                                 {isLiking ? (
                                   <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
                                     <circle
@@ -282,203 +281,7 @@ function Player() {
                               </span>
                               Save
                             </button>
-                            <div className="absolute right-0 top-full z-10 hidden w-64 overflow-hidden rounded-lg bg-[#121212] p-4 shadow shadow-slate-50/30 hover:block peer-focus:block">
-                              <h3 className="mb-4 text-center text-lg font-semibold">
-                                Save to playlist
-                              </h3>
-                              <ul className="mb-4">
-                                <li className="mb-2 last:mb-0">
-                                  <label
-                                    className="group/label inline-flex cursor-pointer items-center gap-x-3"
-                                    htmlFor="Collections-checkbox"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      className="peer hidden"
-                                      id="Collections-checkbox"
-                                    />
-                                    <span className="inline-flex h-4 w-4 items-center justify-center rounded-[4px] border border-transparent bg-white text-white group-hover/label:border-[#ae7aff] peer-checked:border-[#ae7aff] peer-checked:text-[#ae7aff]">
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={3}
-                                        stroke="currentColor"
-                                        aria-hidden="true"
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          d="M4.5 12.75l6 6 9-13.5"
-                                        />
-                                      </svg>
-                                    </span>
-                                    Collections
-                                  </label>
-                                </li>
-                                <li className="mb-2 last:mb-0">
-                                  <label
-                                    className="group/label inline-flex cursor-pointer items-center gap-x-3"
-                                    htmlFor="JavaScript Basics-checkbox"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      className="peer hidden"
-                                      id="JavaScript Basics-checkbox"
-                                    />
-                                    <span className="inline-flex h-4 w-4 items-center justify-center rounded-[4px] border border-transparent bg-white text-white group-hover/label:border-[#ae7aff] peer-checked:border-[#ae7aff] peer-checked:text-[#ae7aff]">
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={3}
-                                        stroke="currentColor"
-                                        aria-hidden="true"
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          d="M4.5 12.75l6 6 9-13.5"
-                                        />
-                                      </svg>
-                                    </span>
-                                    JavaScript Basics
-                                  </label>
-                                </li>
-                                <li className="mb-2 last:mb-0">
-                                  <label
-                                    className="group/label inline-flex cursor-pointer items-center gap-x-3"
-                                    htmlFor="C++ Tuts-checkbox"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      className="peer hidden"
-                                      id="C++ Tuts-checkbox"
-                                    />
-                                    <span className="inline-flex h-4 w-4 items-center justify-center rounded-[4px] border border-transparent bg-white text-white group-hover/label:border-[#ae7aff] peer-checked:border-[#ae7aff] peer-checked:text-[#ae7aff]">
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={3}
-                                        stroke="currentColor"
-                                        aria-hidden="true"
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          d="M4.5 12.75l6 6 9-13.5"
-                                        />
-                                      </svg>
-                                    </span>
-                                    C++ Tuts
-                                  </label>
-                                </li>
-                                <li className="mb-2 last:mb-0">
-                                  <label
-                                    className="group/label inline-flex cursor-pointer items-center gap-x-3"
-                                    htmlFor="Feel Good Music-checkbox"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      className="peer hidden"
-                                      id="Feel Good Music-checkbox"
-                                    />
-                                    <span className="inline-flex h-4 w-4 items-center justify-center rounded-[4px] border border-transparent bg-white text-white group-hover/label:border-[#ae7aff] peer-checked:border-[#ae7aff] peer-checked:text-[#ae7aff]">
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={3}
-                                        stroke="currentColor"
-                                        aria-hidden="true"
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          d="M4.5 12.75l6 6 9-13.5"
-                                        />
-                                      </svg>
-                                    </span>
-                                    Feel Good Music
-                                  </label>
-                                </li>
-                                <li className="mb-2 last:mb-0">
-                                  <label
-                                    className="group/label inline-flex cursor-pointer items-center gap-x-3"
-                                    htmlFor="Ed Sheeran-checkbox"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      className="peer hidden"
-                                      id="Ed Sheeran-checkbox"
-                                    />
-                                    <span className="inline-flex h-4 w-4 items-center justify-center rounded-[4px] border border-transparent bg-white text-white group-hover/label:border-[#ae7aff] peer-checked:border-[#ae7aff] peer-checked:text-[#ae7aff]">
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={3}
-                                        stroke="currentColor"
-                                        aria-hidden="true"
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          d="M4.5 12.75l6 6 9-13.5"
-                                        />
-                                      </svg>
-                                    </span>
-                                    Ed Sheeran
-                                  </label>
-                                </li>
-                                <li className="mb-2 last:mb-0">
-                                  <label
-                                    className="group/label inline-flex cursor-pointer items-center gap-x-3"
-                                    htmlFor="Python-checkbox"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      className="peer hidden"
-                                      id="Python-checkbox"
-                                    />
-                                    <span className="inline-flex h-4 w-4 items-center justify-center rounded-[4px] border border-transparent bg-white text-white group-hover/label:border-[#ae7aff] peer-checked:border-[#ae7aff] peer-checked:text-[#ae7aff]">
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={3}
-                                        stroke="currentColor"
-                                        aria-hidden="true"
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          d="M4.5 12.75l6 6 9-13.5"
-                                        />
-                                      </svg>
-                                    </span>
-                                    Python
-                                  </label>
-                                </li>
-                              </ul>
-                              <div className="flex flex-col">
-                                <label
-                                  htmlFor="playlist-name"
-                                  className="mb-1 inline-block cursor-pointer"
-                                >
-                                  Name
-                                </label>
-                                <input
-                                  className="w-full rounded-lg border border-transparent bg-white px-3 py-2 text-black outline-none focus:border-[#ae7aff]"
-                                  id="playlist-name"
-                                  placeholder="Enter playlist name"
-                                />
-                                <button className="mx-auto mt-4 rounded-lg bg-[#ae7aff] px-4 py-2 text-black">
-                                  Create new playlist
-                                </button>
-                              </div>
-                            </div>
+                            <SavePlaylist />
                           </div>
                         </div>
                       </div>
@@ -498,7 +301,7 @@ function Player() {
                         </div>
                       </div>
                       <div className="block">
-                        <button className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#ae7aff] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
+                        <button  onClick={handleSubscribe} className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#08e6f5] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
                           <span className="inline-block w-5">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -515,10 +318,7 @@ function Player() {
                               />
                             </svg>
                           </span>
-                          <span className="group-focus/btn:hidden">Subscribe</span>
-                          <span className="hidden group-focus/btn:block">
-                            Subscribed
-                          </span>
+                          {video.channel?.isSubscribed ? (<span className="group-focus/btn">Subscribed</span>) : (<span className="group-focus/btn">Subscribe</span>)}
                         </button>
                       </div>
                     </div>
@@ -529,96 +329,12 @@ function Player() {
                       </p>
                     </div>
                   </div>
-                  <button className="peer w-full rounded-lg border p-4 text-left duration-200 hover:bg-white/5 focus:bg-white/5 sm:hidden">
-                    <h6 className="font-semibold">{comments?.length} Comments...</h6>
-                  </button>
-                  <div className="fixed inset-x-0 top-full z-[60] h-[calc(100%-69px)] overflow-auto rounded-lg border bg-[#121212] p-4 duration-200 hover:top-[67px] peer-focus:top-[67px] sm:static sm:h-auto sm:max-h-[500px] lg:max-h-none">
-                    <div className="block">
-                      <h6 className="mb-4 font-semibold">{comments?.length} Comments</h6>
-                      <input
-                        type="text"
-                        className="w-full rounded-lg border bg-transparent px-2 py-1 placeholder-white"
-                        placeholder="Add a Comment"
-                      />
-                    </div>
-                    <hr className="my-4 border-white" />
-                    {comments && comments && comments.length > 0 ? (
-                      comments.map((comment, idx) => (
-                        <div key={comment._id || idx} className="mb-4 last:mb-0">
-                          <div className="flex gap-x-4">
-                            <div className="mt-2 h-11 w-11 shrink-0">
-                              <img
-                                src={comment?.commentor.avatar || "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
-                                alt={comment?.commentor.username}
-                                className="h-full w-full rounded-full"
-                              />
-                            </div>
-                            <div className="block">
-                              <p className="flex items-center text-gray-200">
-                                {comment?.commentor.fullName}&nbsp;·&nbsp;
-                                <span className="text-sm">{formatTimeAgo(comment?.commentor.createdAt)}</span>
-                              </p>
-                              <p className="text-sm text-gray-200">@{comment?.commentor.username}</p>
-                              <p className="mt-3 text-sm">
-                                {comment.content}
-                              </p>
-                            </div>
-                          </div>
-                          <hr className="my-4 border-white" />
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-gray-400">No comments yet. Be the first to comment!</p>
-                    )}
-                  </div>
+                  <CommentsCard videoId={videoId} />
                 </div>
                 <div className="col-span-12 flex w-full shrink-0 flex-col gap-3 lg:w-[350px] xl:w-[400px]">
-                  {!isLoading && !error && videos && videos.length > 0 && (
                     <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
-                      {videos.map((video, idx) => (
-                          <div key={video._id || idx} className="w-full gap-x-2 border pr-2 md:flex">
-                            <div className="relative mb-2 w-full md:mb-0 md:w-5/12">
-                              <div className="w-full pt-[56%]">
-                                <Link to={`/player/${video._id}`}>
-                                  <div className="absolute inset-0">
-                                    <img
-                                      src={video?.thumbnail || "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
-                                      alt={video?.channel.username}
-                                      className="h-full w-full"
-                                    />
-                                  </div>
-                                </Link>
-                                <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
-                                  {formatDuration(video.duration)}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="flex gap-x-2 px-2 pb-4 pt-1 md:w-7/12 md:px-0 md:py-0.5">
-                              <Link to={`/channel/${video.channel.username}`} className="h-10 w-10 shrink-0">
-                                <div className="h-12 w-12 shrink-0 md:hidden">
-                                  <img
-                                    src={video.channel?.avatar || "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
-                                    alt={video.channel.username}
-                                    className="h-full w-full rounded-full"
-                                  />
-                                </div>
-                              </Link>
-                              <div className="w-full pt-1 md:pt-0">
-                                <h6 className="mb-1 text-sm font-semibold">
-                                  {video.title}
-                                </h6>
-                                <p className="mb-0.5 mt-2 text-sm text-gray-200">
-                                  {video.channel.fullName}
-                                </p>
-                                <p className="flex text-sm text-gray-200">
-                                  {formatViews(video.views)}&nbsp;Views · {formatTimeAgo(video.createdAt)}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                      ))}
+                      <VideoCard userSpecificVideos={false} />
                     </div>
-                  )}
                 </div>
               </div>
             )}

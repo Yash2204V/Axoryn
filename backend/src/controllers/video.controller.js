@@ -182,11 +182,10 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params;
-    //TODO: get video by id
     if (!(videoId)) {
         throw new ApiError(400, "Video Id is invalid");
     }
-
+    
     await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
 
     const video = await Video.aggregate([
@@ -221,15 +220,24 @@ const getVideoById = asyncHandler(async (req, res) => {
         {
             $addFields: {
                 likesCount: { $size: "$likes" },
-                "channel.subscribersCount": { $size: "$subscribers" }
+                "channel.subscribersCount": { $size: "$subscribers" },
+                "channel.isSubscribed": {
+                    $cond: {
+                        if: { $in: [ new mongoose.Types.ObjectId(req.user._id), "$subscribers.subscriber" ] },
+                        then: true,
+                        else: false
+                    }
+                }
             }
         },
         {
             $project: {
+                "channel._id": 1,
                 "channel.avatar": 1,
                 "channel.fullName": 1,
                 "channel.subscribersCount": 1,
                 "channel.username": 1,
+                "channel.isSubscribed": 1,
 
                 createdAt: 1,
                 description: 1,

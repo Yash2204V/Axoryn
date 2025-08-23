@@ -4,18 +4,24 @@ import { formatDuration } from '../utils/formatDuration';
 import { formatTimeAgo } from '../utils/formatTimeAgo';
 import { useGetAllUserVideosQuery, useGetAllVideosQuery } from '../services/video/videoApi';
 
-function VideoCard({ data, userSpecificVideos=false }) {
+function VideoCard({ data, userSpecificVideos=true }) {
 
-const { data: videosData, isLoading, error } = userSpecificVideos ? useGetAllVideosQuery() : useGetAllUserVideosQuery(
-      { userId: data },
-      { skip: !data }
-    );
+  const { data: allVideos, error: allError, isLoading: allLoading } = useGetAllVideosQuery();
+  const { data: userVideos, error: userError, isLoading: userLoading } = useGetAllUserVideosQuery(
+    { userId: data },
+    { skip: !data }
+  );
 
-const videos = videosData?.data?.docs || [];
+  const videosData = userSpecificVideos ? userVideos : allVideos;
+  const videos = videosData?.data?.docs || [];
+
+  const isLoading = userSpecificVideos ? userLoading : allLoading;
+  const error = userSpecificVideos ? userError : allError;
+
 
   return (
     <>
-      {videos?.map((video, idx) => (
+      {!isLoading && !error && videos?.map((video, idx) => (
         <div key={video._id || idx} className="w-full">
           <div className="relative mb-2 w-full pt-[56%]">
             <Link to={`/player/${video._id}`}>

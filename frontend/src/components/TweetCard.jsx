@@ -41,7 +41,7 @@ function TweetCard({ data }) {
                             strokeWidth="1.5"
                             stroke="currentColor"
                             aria-hidden="true"
-                            className="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
+                            className="h-5 w-5 text-[#08e6f5] group-focus:text-inherit"
                             >
                             <path
                                 strokeLinecap="round"

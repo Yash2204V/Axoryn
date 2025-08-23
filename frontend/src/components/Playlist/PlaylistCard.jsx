@@ -1,5 +1,4 @@
-import React from 'react'
-import { formatTimeAgo } from '../utils/formatTimeAgo';
+import { formatTimeAgo } from "../../utils/formatTimeAgo"
 
 function PlaylistCard({ playlist }) {
     
