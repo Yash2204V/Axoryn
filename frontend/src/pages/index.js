@@ -7,6 +7,8 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import TermAndCondition from "./TermAndCondition";
 import Login from "./Login/Login";
 import Register from "./Register/Register";
+import MyChannel from "./MyChannel/MyChannel";
+import EditProfile from "./EditProfile/EditProfile";
 
 export { 
     Home, 
@@ -17,5 +19,7 @@ export {
     PrivacyPolicy, 
     TermAndCondition,
     Login,
-    Register
+    Register,
+    MyChannel,
+    EditProfile
 }

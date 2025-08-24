@@ -290,7 +290,7 @@ function Header({ onReload }) {
               </>
             :
               <div className="flex w-full items-center gap-4 md:w-auto">
-                <button className="mr-1 w-full rounded-full shadow-[5px_5px_0px_0px_#4b5563] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4b5563] flex gap-4 text-left sm:items-center">
+                <Link to={`/mychannel/${userData?.username}`} className="mr-1 w-full rounded-full shadow-[5px_5px_0px_0px_#4b5563] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4b5563] flex gap-4 text-left sm:items-center">
                   <img
                     src={
                       userData?.avatar ||
@@ -307,7 +307,7 @@ function Header({ onReload }) {
                       @{userData?.username || "username"}
                     </p>
                   </div>
-                </button>
+                </Link>
                 <button
                   onClick={handleLogout}
                   disabled={isLoggingOut}

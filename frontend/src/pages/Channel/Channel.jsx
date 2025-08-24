@@ -3,7 +3,6 @@ import { Aside, PlaylistCard, SubscribedCard, VideoCard } from '../../components
 import { useGetUserChannelProfileQuery } from '../../services/user/userApi';
 import { useParams } from 'react-router-dom';
 import { useToggleSubscriptionMutation } from '../../services/subscription/subscriptionApi';
-import { useGetUserPlaylistsQuery } from '../../services/playlist/playlistApi';
 import TweetCard from '../../components/TweetCard';
 
 function Channel() {
@@ -12,9 +11,6 @@ function Channel() {
   
   const { data, refetch } = useGetUserChannelProfileQuery(username);
   const channel = data?.data;
-
-  const {data: playlistsData } = useGetUserPlaylistsQuery(channel?._id, { skip: !channel?._id });
-  const playlists = playlistsData?.data || [];
 
   const [toggleSubscription] = useToggleSubscriptionMutation();
 
@@ -146,9 +142,9 @@ function Channel() {
                   {switchState === "subscribed" && 
                     <SubscribedCard data={channel?._id} />
                   }
-                  {switchState === "playlists" && playlists?.map((playlist, idx) => (
-                    <PlaylistCard key={playlist._id || idx} playlist={playlist} />
-                  ))}
+                  {switchState === "playlists" && 
+                    <PlaylistCard data={channel?._id} />
+                  }
               </div>
             </div>
           </section>
