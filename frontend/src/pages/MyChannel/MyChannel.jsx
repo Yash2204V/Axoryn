@@ -1,14 +1,20 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Aside, PlaylistCard, SubscribedCard, TweetCard, VideoCard } from '../../components'
 import { useGetUserChannelProfileQuery } from '../../services/user/userApi';
 import { Link, useParams } from 'react-router-dom';
 
 function MyChannel() {
   const { username } = useParams();
-  const [switchState, setSwitchState] = useState('videos');
-
+  const [switchState, setSwitchState] = useState(
+    () => localStorage.getItem('switchState') || 'videos'
+  );
+  
   const { data, refetch } = useGetUserChannelProfileQuery(username);
   const channel = data?.data;
+
+  useEffect(() => {
+    localStorage.setItem('switchState', switchState);
+  }, [switchState]);
 
   return (
     <div>
@@ -38,7 +44,7 @@ function MyChannel() {
                   </p>
                 </div>
                 <div className="inline-block">
-                    <Link to={`/channel/${channel?.username}/edit`} className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#08e6f5] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
+                    <Link to={`/mychannel/${channel?.username}/edit`} className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#08e6f5] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
                       <span className="inline-block w-5">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
@@ -97,18 +103,10 @@ function MyChannel() {
               <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 pt-2">
                   {/* Videos, Playlists, Tweet, Subscribed Conditional Rendering Mapping Here */}
                   { switchState === "videos" && 
-                    <div className='flex flex-col gap-4'>
-                      <button className="w-fit mt-4 inline-flex items-center gap-x-2 bg-[#08e6f5] px-3 py-2 font-semibold text-black">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true" className="h-5 w-5">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                        New video
-                      </button>
-                      <VideoCard data={channel?._id} /> 
-                    </div>
+                      <VideoCard data={channel?._id} />
                   }
                   {switchState === "tweets" &&
-                    <div classname="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4">
                       <div className="mt-2 border pb-2">
                         <textarea className="mb-2 h-10 w-full resize-none border-none bg-transparent px-3 pt-2 outline-none" placeholder="Write a tweet" defaultValue={""} />
                         <div className="flex items-center justify-end gap-x-3 px-3">
@@ -125,15 +123,13 @@ function MyChannel() {
                           <button className="bg-[#08e6f5] px-3 py-2 font-semibold text-black">Send</button>
                         </div>
                       </div>
-                      <tweetcard data="{channel?._id}">
-                      </tweetcard>
                     </div>
-                  }
-                  {switchState === "subscribed" && 
-                    <SubscribedCard data={channel?._id} />
                   }
                   {switchState === "playlists" && 
                     <PlaylistCard data={channel?._id} />
+                  }
+                  {switchState === "subscribed" && 
+                    <SubscribedCard data={channel?._id} />
                   }
               </div>
             </div>

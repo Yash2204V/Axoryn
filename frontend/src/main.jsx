@@ -5,7 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import { Provider } from 'react-redux'
 import store from './app/store.js'
-import { Home, Channel, Player, PrivacyPolicy, TermAndCondition, Login, Register, MyChannel, EditProfile } from "./pages/index.js"
+import { Home, Channel, Player, PrivacyPolicy, TermAndCondition, Login, Register, MyChannel, EditProfile, Playlist } from "./pages/index.js"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,7 +15,8 @@ const router = createBrowserRouter(
       <Route path='register' element={<Register />} />
       <Route path='channel/:username' element={<Channel />} />
       <Route path='mychannel/:username' element={<MyChannel />} />
-      <Route path='channel/:username/edit' element={<EditProfile />} />
+      <Route path='mychannel/:username/edit' element={<EditProfile />} />
+      <Route path='playlist/:playlistId' element={<Playlist />} />
       <Route path='player/:videoId' element={<Player />} />
       <Route path='privacy-policy' element={<PrivacyPolicy />} />
       <Route path='term-and-condition' element={<TermAndCondition />} />
@@ -24,9 +25,9 @@ const router = createBrowserRouter(
 )
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>
+  <StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
-    </Provider>,
-  // </StrictMode>, 
+    </Provider>
+  </StrictMode>, 
 )

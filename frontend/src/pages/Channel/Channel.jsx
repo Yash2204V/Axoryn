@@ -4,15 +4,22 @@ import { useGetUserChannelProfileQuery } from '../../services/user/userApi';
 import { useParams } from 'react-router-dom';
 import { useToggleSubscriptionMutation } from '../../services/subscription/subscriptionApi';
 import TweetCard from '../../components/TweetCard';
+import { useEffect } from 'react';
 
 function Channel() {
   const { username } = useParams();
-  const [switchState, setSwitchState] = useState('videos');
+  const [switchState, setSwitchState] = useState(
+    () => localStorage.getItem('switchState') || 'videos'
+  );
   
   const { data, refetch } = useGetUserChannelProfileQuery(username);
   const channel = data?.data;
 
   const [toggleSubscription] = useToggleSubscriptionMutation();
+
+  useEffect(() => {
+    localStorage.setItem('switchState', switchState);
+  }, [switchState]);
 
   const handleSubscribe = () => {
     toggleSubscription(channel?._id).unwrap();
@@ -89,6 +96,7 @@ function Channel() {
                 <li className="w-full">
                   <button
                     onClick={() => setSwitchState('videos')}
+                    value={'videos'}
                     className={`w-full border-b-2 px-3 py-1.5 
                       ${switchState === 'videos' 
                         ? 'border-[#08e6f5] text-[#08e6f5] bg-white' 
@@ -100,6 +108,7 @@ function Channel() {
                 <li className="w-full">
                   <button
                     onClick={() => setSwitchState('playlists')}
+                    value={'playlists'}
                     className={`w-full border-b-2 px-3 py-1.5 
                       ${switchState === 'playlists' 
                         ? 'border-[#08e6f5] text-[#08e6f5] bg-white' 
@@ -111,6 +120,7 @@ function Channel() {
                 <li className="w-full">
                   <button
                     onClick={() => setSwitchState('tweets')}
+                    value={'tweets'}
                     className={`w-full border-b-2 px-3 py-1.5 
                       ${switchState === 'tweets' 
                         ? 'border-[#08e6f5] text-[#08e6f5] bg-white' 
@@ -122,6 +132,7 @@ function Channel() {
                 <li className="w-full">
                   <button
                     onClick={() => setSwitchState('subscribed')}
+                    value={'subscribed'}
                     className={`w-full border-b-2 px-3 py-1.5 
                       ${switchState === 'subscribed' 
                         ? 'border-[#08e6f5] text-[#08e6f5] bg-white' 

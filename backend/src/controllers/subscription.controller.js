@@ -125,7 +125,7 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
             $unwind: "$channelDetails"
         }, {
             $project: {
-                _id: 0,
+                _id: 1,
                 username: "$channelDetails.username",
                 avatar: "$channelDetails.avatar",
                 fullName: "$channelDetails.fullName",

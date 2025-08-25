@@ -249,7 +249,9 @@ const getVideoById = asyncHandler(async (req, res) => {
             }
         }
     ]);
-
+    
+    console.log(video);
+    
     return res
         .status(200)
         .json(

@@ -9,6 +9,7 @@ import Login from "./Login/Login";
 import Register from "./Register/Register";
 import MyChannel from "./MyChannel/MyChannel";
 import EditProfile from "./EditProfile/EditProfile";
+import Playlist from "./Playlist/Playlist";
 
 export { 
     Home, 
@@ -21,5 +22,6 @@ export {
     Login,
     Register,
     MyChannel,
-    EditProfile
+    EditProfile,
+    Playlist
 }

@@ -41,12 +41,16 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
 
     let { userId } = req.params
     //TODO: get user playlists
-    
-    
+
     if (!isValidObjectId(userId)) {
         throw new ApiError(400, "Invalid UserId");
     }
-    const userPlaylists = await Playlist.find({ owner: userId });
+    const userPlaylists = await Playlist.find({ owner: userId })
+    .populate({
+        path: "videos",
+        select: "thumbnail",   
+        options: { limit: 1 }
+    });
 
     if (!userPlaylists) {
         throw new ApiError(400, "Playlists not found");
@@ -67,7 +71,16 @@ const getPlaylistById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid Playlist Id");
     }
 
-    const playlist = await Playlist.findById(playlistId);
+    const playlist = await Playlist.findById(playlistId)
+    .populate("owner", "username fullName avatar")
+    .populate({
+            path: "videos",
+            select: "_id title thumbnail duration views owner createdAt",
+            populate: {
+            path: "owner",
+            select: "username avatar"
+        }
+    });
 
     if (!playlist) {
         throw new ApiError(400, "Playlist not found")

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { formatViews } from '../utils/formatViews';
 import { formatDuration } from '../utils/formatDuration';
@@ -6,6 +6,8 @@ import { formatTimeAgo } from '../utils/formatTimeAgo';
 import { useGetAllUserVideosQuery, useGetAllVideosQuery } from '../services/video/videoApi';
 
 const VideoCard = memo(({ data, userSpecificVideos=true }) => {
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const { data: allVideos, error: allError, isLoading: allLoading } = useGetAllVideosQuery();
   const { data: userVideos, error: userError, isLoading: userLoading } = useGetAllUserVideosQuery(
@@ -20,7 +22,107 @@ const VideoCard = memo(({ data, userSpecificVideos=true }) => {
   const error = userSpecificVideos ? userError : allError;
 
   return (
-    <>
+
+    <div className='flex flex-col gap-4 justify-center items-center'>
+      <button onClick={() => setIsOpen(true)} className="w-fit mt-4 inline-flex items-center gap-x-2 bg-[#08e6f5] px-3 py-2 font-semibold text-black">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true" className="h-5 w-5">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        New video
+      </button>
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            className="relative flex h-[90vh] w-full max-w-3xl flex-col rounded-lg border bg-black shadow-lg"
+            onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between border-b p-4">
+              <h2 className="text-xl font-semibold">Upload Videos</h2>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="bg-[#08e6f5] px-3 py-2 font-bold text-black rounded">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">
+                    <path d="M18 6 6 18"/>
+                    <path d="m6 6 12 12"/>
+                  </svg>
+                </button>
+                <button className="bg-[#08e6f5] px-3 py-2 font-bold text-black rounded">
+                  Save
+                </button>
+              </div>
+            </div>
+            <div className="mx-auto flex w-full max-w-3xl flex-col gap-y-4 p-4 h-auto overflow-y-auto">
+              <div className="w-full border-2 border-dashed px-4 py-12 text-center">
+                <span className="mb-4 inline-block w-24 rounded-full  bg-[#9ef9ff] p-4 text-[#08e6f5]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                    />
+                  </svg>
+                </span>
+                <h6 className="mb-2 font-semibold">
+                  Drag and drop video files to upload
+                </h6>
+                <p className="text-gray-400">
+                  Your videos will be private untill you publish them.
+                </p>
+                <label
+                  htmlFor="upload-video"
+                  className="group/btn mt-4 inline-flex w-auto cursor-pointer items-center gap-x-2 bg-[#08e6f5] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e]"
+                >
+                  <input type="file" id="upload-video" className="sr-only" />
+                  Select Files
+                </label>
+              </div>
+              <div className="w-full">
+                <label htmlFor="thumbnail" className="mb-1 inline-block">
+                  Thumbnail
+                  <sup>*</sup>
+                </label>
+                <input
+                  id="thumbnail"
+                  type="file"
+                  className="w-full border p-1 file:mr-4 file:border-none file:bg-[#08e6f5] file:px-3 file:py-1.5"
+                />
+              </div>
+              <div className="w-full">
+                <label htmlFor="title" className="mb-1 inline-block">
+                  Title
+                  <sup>*</sup>
+                </label>
+                <input
+                  id="title"
+                  type="text"
+                  className="w-full border bg-transparent px-2 py-1 outline-none"
+                />
+              </div>
+              <div className="w-full">
+                <label htmlFor="desc" className="mb-1 inline-block">
+                  Description
+                  <sup>*</sup>
+                </label>
+                <textarea
+                  id="desc"
+                  className="h-40 w-full resize-none border bg-transparent px-2 py-1 outline-none"
+                  defaultValue={""}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {!isLoading && !error && videos?.length > 0 ? videos?.map((video, idx) => (
         <div key={video._id || idx} className="w-full">
           <div className="relative mb-2 w-full pt-[56%]">
@@ -80,16 +182,10 @@ const VideoCard = memo(({ data, userSpecificVideos=true }) => {
             </p>
             <h5 className="mb-2 font-semibold">No videos uploaded</h5>
             <p>This page has yet to upload a video. Search another page in order to find more videos.</p>
-            <button className="mt-4 inline-flex items-center gap-x-2 bg-[#08e6f5] px-3 py-2 font-semibold text-black">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true" className="h-5 w-5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-              </svg>
-              New video
-            </button>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 })
 
