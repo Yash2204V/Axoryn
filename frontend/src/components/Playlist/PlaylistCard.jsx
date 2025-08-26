@@ -1,15 +1,68 @@
 import { Link } from "react-router-dom";
-import { useGetUserPlaylistsQuery } from "../../services/playlist/playlistApi";
+import { useDeletePlaylistMutation, useGetUserPlaylistsQuery, useUpdatePlaylistMutation } from "../../services/playlist/playlistApi";
 import { formatTimeAgo } from "../../utils/formatTimeAgo"
+import { useState } from "react";
 
-function PlaylistCard({ data }) {
+function PlaylistCard({ data, editAndDelete=false }) {
 
-    const { data: playlistsData } = useGetUserPlaylistsQuery(data, { skip: !data });
+    const [form, setForm] = useState({
+        name: "",
+        description: ""
+    });
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedPlaylist, setSelectedPlaylist] = useState(null); 
+
+
+    const { data: playlistsData, refetch } = useGetUserPlaylistsQuery(data, { skip: !data });
     const playlists = playlistsData?.data || [];
 
+    const [deletePlaylist] = useDeletePlaylistMutation();
+    const [updatePlaylist] = useUpdatePlaylistMutation();
+
+    const handleDelete = async (playlistId) => {
+        if (window.confirm("Are you sure you want to delete this playlist?")) {
+            try {
+                await deletePlaylist(playlistId).unwrap();
+                refetch();
+            } catch (error) {
+                console.error("Failed to delete the playlist: ", error);
+            }
+        }
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleOpenEdit = (playlist) => {
+        setSelectedPlaylist(playlist);
+        setForm({
+            name: playlist.name,
+            description: playlist.description || ""
+        });
+        setIsOpen(true);
+    };
+
+    const handleEdit = async () => {
+        if (!selectedPlaylist?._id) return;
+        try {
+            await updatePlaylist({ playlistId: selectedPlaylist._id, body: form }).unwrap();
+            alert("Playlist updated successfully");
+            setIsOpen(false);
+            setSelectedPlaylist(null);
+            refetch();
+        } catch (error) {
+            console.error("Failed to update the playlist: ", error);
+        }
+    };
+
     return (
-        <>
-            {playlists?.length > 0 ? playlists?.map((playlist, idx) => (
+        <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
+            {playlists?.length > 0 ? [...playlists].reverse().map((playlist, idx) => (
                 <div key={playlist._id || idx} className="w-full">
                     <Link to={`/playlist/${playlist._id}`}>
                         <div className="relative mb-2 w-full pt-[56%]">
@@ -19,12 +72,58 @@ function PlaylistCard({ data }) {
                                     alt={playlist?.name}
                                     className="h-full w-full"
                                 />
+                                {editAndDelete && (
+                                    <>
+                                        <button
+                                            onClick={(e) => (
+                                                e.preventDefault(),
+                                                handleOpenEdit(playlist)
+                                            )} className="absolute right-14 top-2 z-[2] rounded-full bg-black/30 p-2 text-white backdrop-blur-sm hover:bg-black/50">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth={2}
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                className="lucide lucide-pencil-icon lucide-pencil"
+                                                >
+                                                <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+                                                <path d="m15 5 4 4" />
+                                            </svg>
+                                        </button>
+                                        <button onClick={(e) => (
+                                            e.preventDefault(),
+                                            handleDelete(playlist._id)
+                                        )} className="absolute right-2 top-2 z-[2] rounded-full bg-black/30 p-2 text-white backdrop-blur-sm hover:bg-black/50">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth={2}
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                className="lucide lucide-trash-icon lucide-trash"
+                                                >
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                                                <path d="M3 6h18" />
+                                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                            </svg>
+                                        </button>
+                                    </>
+                                )}
                                 <div className="absolute inset-x-0 bottom-0">
-                                    <div className="relative border-t bg-white/30 p-4 text-white backdrop-blur-sm before:absolute before:inset-0 before:bg-black/40">
-                                        <div className="relative z-[1]">
+                                    <div className="relative z-[1]">
+                                        <div className="relative border-t bg-white/30 p-4 text-white backdrop-blur-sm before:absolute before:inset-0 before:bg-black/40">
                                             <p className="flex justify-between">
                                                 <span className="inline-block">{playlist?.name}</span>
-                                                <span className="inline-block">{playlist?.videos.length}&nbsp;videos</span>
+                                                <span className="inline-block">{playlist?.videos?.length}&nbsp;videos</span>
                                             </p>
                                             <p className="text-sm text-gray-200">
                                                 {formatTimeAgo(playlist?.createdAt)}
@@ -35,6 +134,60 @@ function PlaylistCard({ data }) {
                             </div>
                         </div>
                     </Link>
+                    {isOpen && selectedPlaylist && (
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            handleEdit();
+                        }}>
+                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+                                onClick={() => setIsOpen(false)}>
+                                <div className="relative flex h-auto w-full max-w-3xl flex-col rounded-lg border bg-black shadow-lg"
+                                    onClick={(e) => e.stopPropagation()}>
+                                    <div className="flex items-center justify-between border-b p-4">
+                                        <h2 className="text-xl font-semibold">Edit Playlist</h2>
+                                        <div className="flex gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => setIsOpen(false)}
+                                                className="bg-[#08e6f5] px-3 py-2 font-bold text-black rounded"
+                                            >
+                                                ✕
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                className="bg-[#08e6f5] px-3 py-2 font-bold text-black rounded"
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="w-full p-4">
+                                        <label htmlFor="name" className="mb-1 inline-block">Title *</label>
+                                        <input
+                                            id="name"
+                                            type="text"
+                                            name="name"
+                                            value={form.name}
+                                            onChange={handleChange}
+                                            className="w-full border bg-transparent px-2 py-1 outline-none"
+                                        />
+                                    </div>
+
+                                    <div className="w-full p-4">
+                                        <label htmlFor="desc" className="mb-1 inline-block">Description *</label>
+                                        <textarea
+                                            id="desc"
+                                            name="description"
+                                            value={form.description}
+                                            onChange={handleChange}
+                                            className="h-40 w-full resize-none border bg-transparent px-2 py-1 outline-none"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    )}
                 </div>
             )) : (
                 <div className="flex items-center justify-center p-4">
@@ -64,7 +217,8 @@ function PlaylistCard({ data }) {
                     </div>
                 </div>
             )}
-        </>
+
+        </div>
     )
 }
 

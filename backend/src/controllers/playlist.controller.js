@@ -48,8 +48,7 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
     const userPlaylists = await Playlist.find({ owner: userId })
     .populate({
         path: "videos",
-        select: "thumbnail",   
-        options: { limit: 1 }
+        select: "thumbnail"
     });
 
     if (!userPlaylists) {

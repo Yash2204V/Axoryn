@@ -11,6 +11,7 @@ function Player() {
   const { videoId } = useParams();
   const { data, error, isLoading, refetch } = useGetVideoByIdQuery(videoId);
   const video = data?.data?.[0];
+  console.log(video);
 
   const [toggleVideoLike, { isLoading: isLiking }] = useToggleVideoLikeMutation();
   const [toggleSubscription] = useToggleSubscriptionMutation();

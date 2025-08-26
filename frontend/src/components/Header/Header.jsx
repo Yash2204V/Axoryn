@@ -23,11 +23,11 @@ function Header({ onReload }) {
     try {
       await logoutUser().unwrap();
       localStorage.removeItem('token');
+      window.location.reload();
       navigate("/");
     } catch (error) {
       console.error('Logout failed:', error);
       localStorage.removeItem('token');
-      window.location.reload();
     }
   };
 

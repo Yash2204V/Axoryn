@@ -55,16 +55,47 @@ const getUserTweets = asyncHandler(async (req, res) => {
             }
         },
         {
+            $unwind: "$tweets"
+        },
+        {
+            $lookup: {
+                from: "likes",
+                let: { tweetId: "$tweets._id" },
+                pipeline: [
+                    { $match: { $expr: { $eq: ["$tweet", "$$tweetId"] } } },
+                    { $count: "count" }
+                ],
+                as: "likesCount"
+            }
+        },
+        {
+            $addFields: {
+                "tweets.likesCount": {
+                    $ifNull: [{ $arrayElemAt: ["$likesCount.count", 0] }, 0]
+                }
+            }
+        },
+        {
+            $group: {
+                _id: "$_id",
+                fullName: { $first: "$fullName" },
+                username: { $first: "$username" },
+                email: { $first: "$email" },
+                avatar: { $first: "$avatar" },
+                tweets: { $push: "$tweets" }
+            }
+        },
+        {
             $project: {
                 fullName: 1,
                 username: 1,
                 email: 1,
-                tweets: 1,
-                avatar: 1
+                avatar: 1,
+                tweets: 1
             }
         }
     ]);
-    
+
 
     return res
         .status(200)
@@ -79,7 +110,7 @@ const updateTweet = asyncHandler(async (req, res) => {
     const { tweetId } = req.params;
     const { newContent } = req.body;
 
-    if(!newContent) {
+    if (!newContent) {
         throw new ApiError(400, "Invalid Content")
     }
 
