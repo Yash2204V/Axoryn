@@ -5,13 +5,13 @@ import { formatViews } from '../../utils/formatViews';
 import { formatTimeAgo } from '../../utils/formatTimeAgo';
 import { useToggleVideoLikeMutation } from '../../services/like/likeApi';
 import { useToggleSubscriptionMutation } from '../../services/subscription/subscriptionApi';
+import toast from 'react-hot-toast';
 
 function Player() {
 
   const { videoId } = useParams();
   const { data, error, isLoading, refetch } = useGetVideoByIdQuery(videoId);
   const video = data?.data?.[0];
-  console.log(video);
 
   const [toggleVideoLike, { isLoading: isLiking }] = useToggleVideoLikeMutation();
   const [toggleSubscription] = useToggleSubscriptionMutation();
@@ -21,13 +21,18 @@ function Player() {
       await toggleVideoLike(videoId).unwrap();
       refetch();
     } catch (error) {
-      console.error('Failed to toggle like:', error);
+      toast.error(`Failed to toggle like! ${error?.message || ""}`);
     }
   };
 
-  const handleSubscribe = () => {
-    toggleSubscription(video.channel?._id).unwrap();
-    refetch();
+  const handleSubscribe = async () => {
+    try {
+      await toggleSubscription(video.channel?._id).unwrap();
+      refetch();
+    } catch (error) {
+      toast.error("You can't subscribe your own channel");
+      console.error(error)
+    }
   };
 
   return (
@@ -41,7 +46,6 @@ function Player() {
         <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
           <Aside />
           <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0">
-            {/* Loading State */}
             {isLoading && (
               <div className="flex h-full items-center justify-center p-8">
                 <div className="w-full max-w-sm text-center">
@@ -52,7 +56,6 @@ function Player() {
               </div>
             )}
 
-            {/* Error State */}
             {error && !isLoading && (
               <div className="flex h-full items-center justify-center p-8">
                 <div className="w-full max-w-sm text-center">
@@ -85,7 +88,6 @@ function Player() {
               </div>
             )}
 
-            {/* Video Player Content */}
             {!isLoading && !error && video && (
               <div className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
                 <div className="col-span-12 w-full">

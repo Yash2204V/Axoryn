@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Input, Button, Logo } from "../../components"
 import { useNavigate, Link } from 'react-router-dom'
 import { useRegisterUserMutation } from '../../services/user/userApi'
+import toast from 'react-hot-toast'
 
 function Register() {
     const navigate = useNavigate()
@@ -35,10 +36,12 @@ function Register() {
         e.preventDefault();
 
         if (!formData.fullName || !formData.email || !formData.username || !formData.password) {
+            toast.error("Please fill in all required fields.");
             return; 
         }
 
         if (!formData.avatar) {
+            toast.error("Please upload an avatar.");
             return;
         }
 
@@ -61,9 +64,10 @@ function Register() {
                 coverImage: null,
             });
             
+            toast.success("Registration successful! Please log in.");
             navigate('/login');
         } catch (error) {
-            console.error("Registration failed:", error);
+            toast.error(`Registration failed: ${error.data?.message || error.message || error}`);
         }
     };
 

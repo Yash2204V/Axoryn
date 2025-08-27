@@ -1,16 +1,18 @@
 import { memo } from 'react';
 import { useToggleTweetLikeMutation } from '../services/like/likeApi';
-import { useCreateTweetMutation, useGetUserTweetQuery } from '../services/tweet/tweetApi';
+import { useCreateTweetMutation, useDeleteTweetMutation, useGetUserTweetQuery } from '../services/tweet/tweetApi';
 import { formatTimeAgo } from '../utils/formatTimeAgo';
+import toast from 'react-hot-toast';
 
-const TweetCard = memo(({ data, addTweet=false }) => {
+const TweetCard = memo(({ data, addTweet = false }) => {
 
     const { data: tweetsData, refetch } = useGetUserTweetQuery(data, { skip: !data });
     const tweets = tweetsData?.data[0]?.tweets || [];
-    const channel = tweetsData?.data[0] || [];    
-    
-    const [ createTweet ] = useCreateTweetMutation();
-    const [ toggleTweetLike ] = useToggleTweetLikeMutation();
+    const channel = tweetsData?.data[0] || [];
+
+    const [createTweet] = useCreateTweetMutation();
+    const [toggleTweetLike] = useToggleTweetLikeMutation();
+    const [deleteTweet] = useDeleteTweetMutation();
 
     const handleLike = async (tweetId) => {
         try {
@@ -24,8 +26,21 @@ const TweetCard = memo(({ data, addTweet=false }) => {
     const handleTweetSubmit = async (e) => {
         e.preventDefault();
         await createTweet({ content: e.target[0].value });
+        toast.success('Tweet posted successfully!');
         e.target[0].value = "";
         refetch();
+    }
+
+    const handleDelete = async (tweetId) => {
+        console.log(tweetId);
+
+        try {
+            await deleteTweet(tweetId).unwrap();
+            toast.success("Tweet deleted!");
+            refetch();
+        } catch (err) {
+            toast.error(`Failed to delete tweet! ${err?.message || ""}`);
+        }
     }
 
     return (
@@ -33,12 +48,12 @@ const TweetCard = memo(({ data, addTweet=false }) => {
             {addTweet && (
                 <form onSubmit={handleTweetSubmit} className="w-full">
                     <div className="mt-2 border pb-2">
-                        <textarea 
-                            className="mb-2 h-10 w-full resize-none border-none bg-transparent px-3 pt-2 outline-none" 
-                            placeholder="Write a tweet" 
+                        <textarea
+                            className="mb-2 h-10 w-full resize-none border-none bg-transparent px-3 pt-2 outline-none"
+                            placeholder="Write a tweet"
                             name='content'
                             id='content'
-                            defaultValue={""} 
+                            defaultValue={""}
                         />
                         <div className="flex items-center justify-end gap-x-3 px-3">
                             <button type='submit' className="bg-[#08e6f5] px-3 py-2 font-semibold text-black">Send</button>
@@ -47,7 +62,7 @@ const TweetCard = memo(({ data, addTweet=false }) => {
                 </form>
             )}
             <div className="w-full">
-                
+
                 {tweets.length > 0 ? [...tweets]?.reverse().map((tweet, idx) => (
                     <div key={tweet._id || idx} className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
                         <div className="h-14 w-14 shrink-0">
@@ -91,6 +106,26 @@ const TweetCard = memo(({ data, addTweet=false }) => {
                                 </button>
                             </div>
                         </div>
+                        <button className='sm:mr-5 flex items-start' onClick={(e) => {
+                            e.preventDefault();
+                            handleDelete(tweet?._id) }}>
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={20}
+                            height={20}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="lucide lucide-trash-icon lucide-trash"
+                        >
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                                <path d="M3 6h18" />
+                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            </svg>
+                        </button>
                     </div>
                 )) : (
                     <div className="flex justify-center p-4">

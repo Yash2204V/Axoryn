@@ -3,10 +3,16 @@ import { useGetCurrentUserQuery, useLogoutUserMutation } from "../../services/us
 import Logo from "../Logo.jsx";
 import { useEffect } from "react";
 import ReloadBtn from "../ReloadBtn.jsx";
+import toast, { Toaster } from "react-hot-toast";
 
 function Header({ onReload }) {
   const navigate = useNavigate();
-  const { data, isLoading, refetch } = useGetCurrentUserQuery();
+
+  const token = localStorage.getItem('token');
+  
+  const { data, isLoading, refetch } = useGetCurrentUserQuery(undefined, {
+    skip: !token, 
+  });
   const [logoutUser, { isLoading: isLoggingOut }] = useLogoutUserMutation();
 
   const userData = data?.data;
@@ -23,9 +29,11 @@ function Header({ onReload }) {
     try {
       await logoutUser().unwrap();
       localStorage.removeItem('token');
+      toast.success("Logout successful!");
       window.location.reload();
       navigate("/");
     } catch (error) {
+      toast.error(`Logout failed: ${error?.message || ""}`);
       console.error('Logout failed:', error);
       localStorage.removeItem('token');
     }
@@ -33,13 +41,14 @@ function Header({ onReload }) {
 
   return (
     <header className="sticky inset-x-0 top-0 z-50 w-full border-b border-white bg-[#121212] px-4">
+      <Toaster position="top-right" reverseOrder={false} /> 
       <nav className="mx-auto flex max-w-7xl items-center py-2">
         <div className="mr-4 w-12 shrink-0 sm:w-16">
           <Link to="/">
             <Logo />
           </Link>
         </div>
-        <div className="relative mx-auto hidden w-full max-w-md overflow-hidden sm:block">
+        <div className="text-white relative mx-auto hidden w-full max-w-md overflow-hidden sm:block">
           <input
             className="w-full border bg-transparent py-1 pl-8 pr-3 placeholder-white outline-none sm:py-2"
             placeholder="Search"

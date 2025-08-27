@@ -2,8 +2,7 @@ import { Aside, VideoCard } from '../../components'
 import { useGetAllVideosQuery } from '../../services/video/videoApi';
 
 function Home() {
-  const { data, error, isLoading } = useGetAllVideosQuery();
-  const videos = data?.data?.docs || [];
+  const { error, isLoading } = useGetAllVideosQuery();
   
   return (
     <>
@@ -56,36 +55,9 @@ function Home() {
             )}
 
             {/* Videos Grid */}
-            <div>
+            <div className=''>
                 <VideoCard userSpecificVideos={false} />
             </div>
-
-            {/* Empty State */}
-            {!isLoading && !error && (!videos || videos.length === 0) && (
-              <div className="flex h-full items-center justify-center p-8">
-                <div className="w-full max-w-sm text-center">
-                  <p className="mb-3 w-full">
-                    <span className="inline-flex rounded-full bg-[#E4D3FF] p-2 text-[#08e6f5]">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="w-6 h-6">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
-                        />
-                      </svg>
-                    </span>
-                  </p>
-                  <h5 className="mb-2 font-semibold">No videos available</h5>
-                  <p>There are no videos here available. Please try to search something else.</p>
-                </div>
-              </div>
-            )}
           </section>
         </div>
       </div>

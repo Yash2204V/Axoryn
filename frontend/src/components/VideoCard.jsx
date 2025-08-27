@@ -4,6 +4,7 @@ import { formatViews } from '../utils/formatViews';
 import { formatDuration } from '../utils/formatDuration';
 import { formatTimeAgo } from '../utils/formatTimeAgo';
 import { useGetAllUserVideosQuery, useGetAllVideosQuery, usePublishAVideoMutation } from '../services/video/videoApi';
+import toast from 'react-hot-toast';
 
 const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) => {
   
@@ -53,14 +54,11 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
     }
     
     try {
-      console.log(formData);
-      
-      const res = await publishAVideo(formData);
-      alert('Video uploaded successfully!');
+      await publishAVideo(formData);
+      toast.success('Video uploaded successfully!');
       setIsOpen(false);
-      console.log(res);
     } catch (err) {
-      console.error(err);
+      toast.error(`Video upload failed: ${err.message || err}`);
     } 
   };
 
@@ -80,15 +78,11 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
         <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">   
             {!isLoading && !error && videos?.length > 0 ? videos?.map((video, idx) => (
               <div key={video._id || idx} className="w-full">
-                
                 <div className="relative mb-2 w-full pt-[56%]">
                   <Link to={`/player/${video._id}`}>
                     <div className="absolute inset-0">
                       <img
-                        src={
-                          video.thumbnail ||
-                          "https://images.pexels.com/photos/1144276/pexels-photo-1144276.jpeg"
-                        }
+                        src={video.thumbnail}
                         alt={video.title}
                         className="h-full w-full object-cover rounded-lg"
                       />

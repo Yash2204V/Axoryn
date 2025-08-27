@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Input, Logo } from "../../components";
 import { useNavigate, Link } from "react-router-dom";
 import { useLoginUserMutation } from "../../services/user/userApi";
+import toast from "react-hot-toast";
 
 function Login() {
     const [loginUser, { isLoading, error }] = useLoginUserMutation();
@@ -33,24 +34,21 @@ function Login() {
         try {
             const response = await loginUser(formData).unwrap();
             
-            // Store token if provided - backend sends it in response.data.accessToken
             if (response?.data?.accessToken) {
                 localStorage.setItem('token', response.data.accessToken);
             }
             
-            // Clear form
             setFormData({
                 username: "",
                 email: "",
                 password: ""
             });
             
-            // Navigate to home
+            toast.success("Login successful!");
             navigate('/');
             
         } catch (err) {
-            // Error is automatically handled by RTK Query and displayed in the UI
-            console.error('Login failed:', err);
+            toast.error(`Login failed: ${err.message || err}`);
         }
     };
 

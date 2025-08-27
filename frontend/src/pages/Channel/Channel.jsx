@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useToggleSubscriptionMutation } from '../../services/subscription/subscriptionApi';
 import TweetCard from '../../components/TweetCard';
 import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 function Channel() {
   const { username } = useParams();
@@ -23,6 +24,7 @@ function Channel() {
 
   const handleSubscribe = () => {
     toggleSubscription(channel?._id).unwrap();
+    toast.success(channel?.isSubscribed ? "Unsubscribed successfully" : "Subscribed successfully");
     refetch();
   }
 
@@ -142,7 +144,7 @@ function Channel() {
                   </button>
                 </li>
               </ul>
-              <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 pt-2">
+              <div className="">
                   {/* Videos, Playlists, Tweet, Subscribed Conditional Rendering Mapping Here */}
                   { switchState === "videos" && 
                     <VideoCard data={channel?._id} /> 
@@ -150,11 +152,11 @@ function Channel() {
                   {switchState === "tweets" &&
                     <TweetCard data={channel?._id} />
                   }
-                  {switchState === "subscribed" && 
-                    <SubscribedCard data={channel?._id} />
-                  }
                   {switchState === "playlists" && 
                     <PlaylistCard data={channel?._id} />
+                  }
+                  {switchState === "subscribed" && 
+                    <SubscribedCard data={channel?._id} />
                   }
               </div>
             </div>

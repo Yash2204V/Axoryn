@@ -10,6 +10,7 @@ import Register from "./Register/Register";
 import MyChannel from "./MyChannel/MyChannel";
 import EditProfile from "./EditProfile/EditProfile";
 import Playlist from "./Playlist/Playlist";
+import LikedVideos from "./LikedVideos/LikedVideos";
 
 export { 
     Home, 
@@ -23,5 +24,6 @@ export {
     Register,
     MyChannel,
     EditProfile,
-    Playlist
+    Playlist,
+    LikedVideos
 }

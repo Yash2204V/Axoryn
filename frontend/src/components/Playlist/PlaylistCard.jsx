@@ -2,16 +2,18 @@ import { Link } from "react-router-dom";
 import { useDeletePlaylistMutation, useGetUserPlaylistsQuery, useUpdatePlaylistMutation } from "../../services/playlist/playlistApi";
 import { formatTimeAgo } from "../../utils/formatTimeAgo"
 import { useState } from "react";
+import toast from 'react-hot-toast';
+import { confirmDelete } from "../../utils/confirmDelete.jsx";
 
-function PlaylistCard({ data, editAndDelete=false }) {
+function PlaylistCard({ data, editAndDelete = false }) {
 
     const [form, setForm] = useState({
         name: "",
         description: ""
     });
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedPlaylist, setSelectedPlaylist] = useState(null); 
 
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
     const { data: playlistsData, refetch } = useGetUserPlaylistsQuery(data, { skip: !data });
     const playlists = playlistsData?.data || [];
@@ -20,15 +22,16 @@ function PlaylistCard({ data, editAndDelete=false }) {
     const [updatePlaylist] = useUpdatePlaylistMutation();
 
     const handleDelete = async (playlistId) => {
-        if (window.confirm("Are you sure you want to delete this playlist?")) {
+        confirmDelete(async () => {
             try {
                 await deletePlaylist(playlistId).unwrap();
                 refetch();
             } catch (error) {
                 console.error("Failed to delete the playlist: ", error);
+                toast.error("Failed to delete the playlist!");
             }
-        }
-    }
+        });
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -51,12 +54,12 @@ function PlaylistCard({ data, editAndDelete=false }) {
         if (!selectedPlaylist?._id) return;
         try {
             await updatePlaylist({ playlistId: selectedPlaylist._id, body: form }).unwrap();
-            alert("Playlist updated successfully");
+            toast.success("Playlist updated successfully");
             setIsOpen(false);
             setSelectedPlaylist(null);
             refetch();
         } catch (error) {
-            console.error("Failed to update the playlist: ", error);
+            toast.error(`Failed to update the playlist! ${error?.message || ""}`);
         }
     };
 
@@ -90,15 +93,18 @@ function PlaylistCard({ data, editAndDelete=false }) {
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"
                                                 className="lucide lucide-pencil-icon lucide-pencil"
-                                                >
+                                            >
                                                 <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
                                                 <path d="m15 5 4 4" />
                                             </svg>
                                         </button>
-                                        <button onClick={(e) => (
-                                            e.preventDefault(),
-                                            handleDelete(playlist._id)
-                                        )} className="absolute right-2 top-2 z-[2] rounded-full bg-black/30 p-2 text-white backdrop-blur-sm hover:bg-black/50">
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleDelete(playlist._id)
+                                            }}
+                                            className="absolute right-2 top-2 z-[2] rounded-full bg-black/30 p-2 text-white backdrop-blur-sm hover:bg-black/50"
+                                        >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 width={24}
@@ -110,7 +116,7 @@ function PlaylistCard({ data, editAndDelete=false }) {
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"
                                                 className="lucide lucide-trash-icon lucide-trash"
-                                                >
+                                            >
                                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
                                                 <path d="M3 6h18" />
                                                 <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />

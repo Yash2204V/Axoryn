@@ -122,12 +122,23 @@ const getLikedVideos = asyncHandler(async (req, res) => {
                 as: "videoDetails"
             }
         }, {
+            $lookup: {
+                from: "users",
+                localField: "likedBy",
+                foreignField: "_id",
+                as: "channel"
+            }
+        }, { 
             $unwind: "$videoDetails" 
         }, {
             $project: {
                 _id: 0,
                 likedAt: "$createdAt",
                 videoDetails: 1,
+                channel: {
+                    username: { $getField: { field: "username", input: { $arrayElemAt: ["$channel", 0] } } },
+                    avatar: { $getField: { field: "avatar", input: { $arrayElemAt: ["$channel", 0] } } }
+                }
             }
         }
     ]);
