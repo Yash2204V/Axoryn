@@ -10,7 +10,6 @@ const CommentsCard = memo(({ videoId }) => {
     const token = localStorage.getItem('token');
     const userId = useGetCurrentUserQuery(undefined, { skip: !token })?.data?.data._id;
     
-
     const { data: commentsData, refetch } = useGetVideoCommentsQuery(videoId);
     const comments = commentsData?.data?.docs || [];
     

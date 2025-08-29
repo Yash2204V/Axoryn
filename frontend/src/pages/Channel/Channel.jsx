@@ -4,23 +4,16 @@ import { useGetUserChannelProfileQuery } from '../../services/user/userApi';
 import { useParams } from 'react-router-dom';
 import { useToggleSubscriptionMutation } from '../../services/subscription/subscriptionApi';
 import TweetCard from '../../components/TweetCard';
-import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 function Channel() {
   const { username } = useParams();
-  const [switchState, setSwitchState] = useState(
-    () => localStorage.getItem('switchState') || 'videos'
-  );
+  const [switchState, setSwitchState] = useState('videos');
   
   const { data, refetch } = useGetUserChannelProfileQuery(username);
   const channel = data?.data;
 
   const [toggleSubscription] = useToggleSubscriptionMutation();
-
-  useEffect(() => {
-    localStorage.setItem('switchState', switchState);
-  }, [switchState]);
 
   const handleSubscribe = () => {
     toggleSubscription(channel?._id).unwrap();

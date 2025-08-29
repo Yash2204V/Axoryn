@@ -77,48 +77,52 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
         )}
         <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">   
             {!isLoading && !error && videos?.length > 0 ? videos?.map((video, idx) => (
-              <div key={video._id || idx} className="w-full">
-                <div className="relative mb-2 w-full pt-[56%]">
-                  <Link to={`/player/${video._id}`}>
-                    <div className="absolute inset-0">
-                      <img
-                        src={video.thumbnail}
-                        alt={video.title}
-                        className="h-full w-full object-cover rounded-lg"
-                      />
+              <div key={video._id || idx} className="w-full">               
+                {video?.isPublished ? (
+                  <div className="w-full">
+                    <div className="relative mb-2 w-full pt-[56%]">
+                      <Link to={`/player/${video._id}`}>
+                        <div className="absolute inset-0">
+                          <img
+                            src={video.thumbnail}
+                            alt={video.title}
+                            className="h-full w-full object-cover rounded-lg"
+                          />
+                        </div>
+                      </Link>
+                      <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
+                        {formatDuration(video.duration)}
+                      </span>
                     </div>
-                  </Link>
-                  <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
-                    {formatDuration(video.duration)}
-                  </span>
-                </div>
-                <div className="flex gap-x-2">
-                  <Link
-                    to={`/channel/${video.channel.username}`}
-                    className="h-10 w-10 shrink-0"
-                  >
-                    <img
-                      src={
-                        video.channel?.avatar ||
-                        "https://images.pexels.com/photos/1144277/pexels-photo-1144277.jpeg"
-                      }
-                      alt={video.channel.username}
-                      className="h-full w-full rounded-full object-cover"
-                    />
-                  </Link>
-                  <div className="w-full capitalize">
-                    <h6 className="mb-1 font-semibold line-clamp-2">
-                      {video?.title}
-                    </h6>
-                    <p className="flex text-sm text-gray-200">
-                      {formatViews(video.views)}&nbsp;Views ·{" "}
-                      {formatTimeAgo(video.createdAt)}
-                    </p>
-                    <p className="text-sm text-gray-200 lowercase">
-                      @{video.channel.username}
-                    </p>
+                    <div className="flex gap-x-2">
+                      <Link
+                        to={`/channel/${video.channel.username}`}
+                        className="h-10 w-10 shrink-0"
+                      >
+                        <img
+                          src={
+                            video.channel?.avatar ||
+                            "https://images.pexels.com/photos/1144277/pexels-photo-1144277.jpeg"
+                          }
+                          alt={video.channel.username}
+                          className="h-full w-full rounded-full object-cover"
+                        />
+                      </Link>
+                      <div className="w-full capitalize">
+                        <h6 className="mb-1 font-semibold line-clamp-2">
+                          {video?.title}
+                        </h6>
+                        <p className="flex text-sm text-gray-200">
+                          {formatViews(video.views)}&nbsp;Views ·{" "}
+                          {formatTimeAgo(video.createdAt)}
+                        </p>
+                        <p className="text-sm text-gray-200 lowercase">
+                          @{video.channel.username}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ): null}
               </div>
             )) : (
               <div className="flex justify-center p-4">
@@ -198,6 +202,7 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
                         </span>
                         <h6 className="mb-2 font-semibold">Drag and drop video files to upload</h6>
                         <p className="text-gray-400">Your videos will be private until you publish them.</p>
+                        <h1 className='text-2xl font-semibold font-sans text-red-600'>Limit (100MB)</h1>
 
                         <label
                           htmlFor="videoFile"

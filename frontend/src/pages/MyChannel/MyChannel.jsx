@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react'
 import { Aside, PlaylistCard, SubscribedCard, TweetCard, VideoCard } from '../../components'
 import { useGetUserChannelProfileQuery } from '../../services/user/userApi';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 function MyChannel() {
   const { username } = useParams();
-  const [switchState, setSwitchState] = useState(
-    () => localStorage.getItem('switchState') || 'videos'
-  );
+  const location = useLocation();
+  const [switchState, setSwitchState] = useState('videos');
   
-  const { data, refetch } = useGetUserChannelProfileQuery(username);
+  const { data } = useGetUserChannelProfileQuery(username);
   const channel = data?.data;
 
   useEffect(() => {
-    localStorage.setItem('switchState', switchState);
-  }, [switchState]);
+    if (location.state?.switchState) {
+      setSwitchState(location.state.switchState);
+    }
+  }, [location.state]);
 
   return (
     <div>

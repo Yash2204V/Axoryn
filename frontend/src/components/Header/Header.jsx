@@ -7,16 +7,12 @@ import toast, { Toaster } from "react-hot-toast";
 
 function Header({ onReload }) {
   const navigate = useNavigate();
-
   const token = localStorage.getItem('token');
-  
-  const { data, isLoading, refetch } = useGetCurrentUserQuery(undefined, {
-    skip: !token, 
-  });
-  const [logoutUser, { isLoading: isLoggingOut }] = useLogoutUserMutation();
 
+  const { data, isLoading, refetch } = useGetCurrentUserQuery(undefined, { skip: !token });
   const userData = data?.data;
 
+  const [logoutUser, { isLoading: isLoggingOut }] = useLogoutUserMutation();
   const isAuthenticated = !!userData || !!localStorage.getItem('token');
 
   useEffect(() => {
@@ -41,7 +37,7 @@ function Header({ onReload }) {
 
   return (
     <header className="sticky inset-x-0 top-0 z-50 w-full border-b border-white bg-[#121212] px-4">
-      <Toaster position="top-right" reverseOrder={false} /> 
+      <Toaster position="top-right" reverseOrder={false} />
       <nav className="mx-auto flex max-w-7xl items-center py-2">
         <div className="mr-4 w-12 shrink-0 sm:w-16">
           <Link to="/">
@@ -96,7 +92,7 @@ function Header({ onReload }) {
           <span className="block h-[2px] w-2/3 bg-white group-hover:bg-[#08e6f5]" />
           <span className="block h-[2px] w-full bg-white group-hover:bg-[#08e6f5]" />
         </button>
-        <div className="fixed inset-y-0 right-0 flex w-full max-w-xs shrink-0 translate-x-full flex-col border-l border-white bg-[#121212] duration-200 hover:translate-x-0 peer-focus:translate-x-0 sm:static sm:ml-4 sm:w-auto sm:translate-x-0 sm:border-none">
+        <div className="text-white fixed inset-y-0 right-0 flex w-full max-w-xs shrink-0 translate-x-full flex-col border-l border-white bg-[#121212] duration-200 hover:translate-x-0 peer-focus:translate-x-0 sm:static sm:ml-4 sm:w-auto sm:translate-x-0 sm:border-none">
           <div className="relative flex w-full items-center justify-between border-b border-white px-4 py-2 sm:hidden">
             <span className="inline-block w-12">
               <svg
@@ -153,26 +149,31 @@ function Header({ onReload }) {
                 </defs>
               </svg>
             </span>
-            <button className="inline-block w-8">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </button>
           </div>
           <ul className="my-4 flex w-full flex-wrap gap-2 px-4 sm:hidden">
             <li className="w-full">
-              <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
+              <Link to={'/'} className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
+                <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
+                  <svg
+                    style={{ width: "100%" }}
+                    viewBox="0 0 20 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 15.9997H14M9.0177 1.76375L2.23539 7.03888C1.78202 7.3915 1.55534 7.56781 1.39203 7.78861C1.24737 7.9842 1.1396 8.20454 1.07403 8.43881C1 8.70327 1 8.99045 1 9.56481V16.7997C1 17.9198 1 18.4799 1.21799 18.9077C1.40973 19.284 1.71569 19.59 2.09202 19.7818C2.51984 19.9997 3.07989 19.9997 4.2 19.9997H15.8C16.9201 19.9997 17.4802 19.9997 17.908 19.7818C18.2843 19.59 18.5903 19.284 18.782 18.9077C19 18.4799 19 17.9198 19 16.7997V9.56481C19 8.99045 19 8.70327 18.926 8.43881C18.8604 8.20454 18.7526 7.9842 18.608 7.78861C18.4447 7.56781 18.218 7.3915 17.7646 7.03888L10.9823 1.76376C10.631 1.4905 10.4553 1.35388 10.2613 1.30136C10.0902 1.25502 9.9098 1.25502 9.73865 1.30136C9.54468 1.35388 9.36902 1.4905 9.0177 1.76375Z"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span>Home</span>
+              </Link>
+            </li>
+            <li className="w-full">
+              <Link to={'/mychannel/liked-videos'} className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
                 <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
                   <svg
                     style={{ width: "100%" }}
@@ -190,10 +191,31 @@ function Header({ onReload }) {
                   </svg>
                 </span>
                 <span>Liked Videos</span>
-              </button>
+              </Link>
             </li>
             <li className="w-full">
-              <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
+              <Link to={'/mychannel/history-videos'} className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
+                <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
+                  <svg
+                    style={{ width: "100%" }}
+                    viewBox="0 0 22 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20.7 11.5L18.7005 9.5L16.7 11.5M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C13.3019 1 16.1885 2.77814 17.7545 5.42909M10 5V10L13 12"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span>History</span>
+              </Link>
+            </li>
+            <li className="w-full">
+              <Link to={`/mychannel/${userData?.username}`} className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
                 <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
                   <svg
                     style={{ width: "100%" }}
@@ -218,7 +240,7 @@ function Header({ onReload }) {
                   </svg>
                 </span>
                 <span>My Content</span>
-              </button>
+              </Link>
             </li>
             <li className="w-full">
               <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
@@ -242,7 +264,7 @@ function Header({ onReload }) {
               </button>
             </li>
             <li className="w-full">
-              <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
+              <Link to={'/mychannel/admin'} className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
                 <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
                   <svg
                     style={{ width: "100%" }}
@@ -266,7 +288,7 @@ function Header({ onReload }) {
                   </svg>
                 </span>
                 <span>Settings</span>
-              </button>
+              </Link>
             </li>
           </ul>
           <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
@@ -297,9 +319,9 @@ function Header({ onReload }) {
                   Sign up
                 </Link>
               </>
-            :
+              :
               <div className="flex w-full items-center gap-4 md:w-auto">
-                <Link to={`/mychannel/${userData?.username}`} className="mr-1 w-full rounded-full shadow-[5px_5px_0px_0px_#4b5563] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4b5563] flex gap-4 text-left sm:items-center">
+                <Link to={`/mychannel/${userData?.username}`} className="mr-1 w-full rounded-full shadow-[5px_5px_0px_0px_#4b5563] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4b5563] flex gap-4 text-left sm:items-center px-3 py-2 sm:px-0 sm:py-0">
                   <img
                     src={
                       userData?.avatar ||

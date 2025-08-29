@@ -37,7 +37,7 @@ function Register() {
 
         if (!formData.fullName || !formData.email || !formData.username || !formData.password) {
             toast.error("Please fill in all required fields.");
-            return; 
+            return;
         }
 
         if (!formData.avatar) {
@@ -46,15 +46,15 @@ function Register() {
         }
 
         const data = new FormData();
-        for(let key in formData) {
-            if(formData[key]){
+        for (let key in formData) {
+            if (formData[key]) {
                 data.append(key, formData[key]);
             }
         }
 
         try {
             await registerUser(data).unwrap();
-            
+
             setFormData({
                 fullName: "",
                 email: "",
@@ -63,7 +63,7 @@ function Register() {
                 avatar: null,
                 coverImage: null,
             });
-            
+
             toast.success("Registration successful! Please log in.");
             navigate('/login');
         } catch (error) {
@@ -82,73 +82,81 @@ function Register() {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit}>
-                    <Input 
-                        label={'Fullname*'} 
-                        type={'text'} 
+                <form className='flex flex-col' onSubmit={handleSubmit}>
+                    <Input
+                        label={'Fullname*'}
+                        type={'text'}
                         name={'fullName'}
-                        onChange={handleChange} 
-                        value={formData.fullName} 
-                        placeholder={'Enter your Fullname'} 
+                        onChange={handleChange}
+                        value={formData.fullName}
+                        placeholder={'Enter your Fullname'}
                         required
                     />
-                    <Input 
-                        label={'Username*'} 
-                        type={'text'} 
+                    <Input
+                        label={'Username*'}
+                        type={'text'}
                         name={'username'}
-                        onChange={handleChange} 
-                        value={formData.username} 
-                        placeholder={'Enter your Username'} 
+                        onChange={handleChange}
+                        value={formData.username}
+                        placeholder={'Enter your Username'}
                         required
                     />
-                    <Input 
-                        label={'Avatar*'} 
-                        type={'file'} 
+                    <Input
+                        label={'Avatar*'}
+                        type={'file'}
                         name={'avatar'}
-                        onChange={handleChange} 
-                        placeholder={'Upload your Avatar'} 
+                        onChange={handleChange}
+                        placeholder={'Upload your Avatar'}
                         accept="image/*"
                         required
                     />
-                    <Input 
-                        label={'Cover Image'} 
-                        type={'file'} 
+                    <Input
+                        label={'Cover Image'}
+                        type={'file'}
                         name={'coverImage'}
-                        onChange={handleChange} 
-                        placeholder={'Upload your Cover Image (Optional)'} 
+                        onChange={handleChange}
+                        placeholder={'Upload your Cover Image (Optional)'}
                         accept="image/*"
                     />
-                    <Input 
-                        label={'Email*'} 
-                        type={'email'} 
+                    <Input
+                        label={'Email*'}
+                        type={'email'}
                         name={'email'}
-                        onChange={handleChange} 
-                        value={formData.email} 
-                        placeholder={'Enter your email'} 
+                        onChange={handleChange}
+                        value={formData.email}
+                        placeholder={'Enter your email'}
                         required
                     />
-                    <Input 
-                        label={'Password*'} 
-                        type={'password'} 
+                    <Input
+                        label={'Password*'}
+                        type={'password'}
                         name={'password'}
-                        onChange={handleChange} 
-                        value={formData.password} 
-                        placeholder={'Enter your password'} 
+                        onChange={handleChange}
+                        value={formData.password}
+                        placeholder={'Enter your password'}
                         required
                         minLength={6}
                     />
-                    <Button 
-                        type={'submit'} 
+                    <div className='mb-3'>
+                        <input
+                            type="checkbox"
+                            required
+                            className="mr-2 h-4 w-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                        />
+                        <Link to={'/term-and-condition'} className='underline'>Terms & Conditions</Link>
+                    </div>
+                    <Button
+                        type={'submit'}
                         disabled={isLoading}
                     >
                         {isLoading ? 'Signing Up...' : 'Sign Up'}
                     </Button>
                 </form>
-                
+
                 <div className="mt-6 text-center text-sm text-gray-400">
                     Already have an account?{' '}
-                    <Link 
-                        to="/login" 
+                    <Link
+                        to="/login"
                         className="text-[#08e6f5] hover:underline font-semibold"
                     >
                         Sign In

@@ -120,7 +120,7 @@ function Admin() {
         <>
 
             <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-                <h1 className="sm:ml-[70px] text-4xl sm:text-5xl font-bold pl-4 pt-4 bg-gradient-to-r from-gray-100 via-gray-400 to-gray-700 bg-clip-text text-transparent">Admin Panel</h1>
+                <h1 className="sm:ml-[70px] text-4xl sm:text-5xl font-bold pl-4 pt-4 bg-gradient-to-r from-gray-100 via-gray-500 to-gray-800 bg-clip-text text-transparent">Admin Panel</h1>
 
                 <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
                     <Aside />

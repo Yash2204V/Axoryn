@@ -11,6 +11,7 @@ import MyChannel from "./MyChannel/MyChannel";
 import EditProfile from "./EditProfile/EditProfile";
 import Playlist from "./Playlist/Playlist";
 import LikedVideos from "./LikedVideos/LikedVideos";
+import HistoryVideos from "./HistoryVideos/HistoryVideos";
 
 export { 
     Home, 
@@ -25,5 +26,6 @@ export {
     MyChannel,
     EditProfile,
     Playlist,
-    LikedVideos
+    LikedVideos,
+    HistoryVideos
 }

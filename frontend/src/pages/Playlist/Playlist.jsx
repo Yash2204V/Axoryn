@@ -1,21 +1,37 @@
 import Aside from "../../components/Aside/Aside.jsx"
-import { useGetPlaylistByIdQuery } from '../../services/playlist/playlistApi.js';
+import { useGetPlaylistByIdQuery, useRemoveVideoFromPlaylistMutation } from '../../services/playlist/playlistApi.js';
 import { Link, useParams } from 'react-router-dom';
 import { formatTimeAgo } from '../../utils/formatTimeAgo.js';
 import { formatDuration } from '../../utils/formatDuration.js';
 import { formatViews } from '../../utils/formatViews.js';
+import { Trash } from "lucide-react";
+import toast from "react-hot-toast";
 
 function Playlist() {
-  const { playlistId } = useParams(); 
+  const { playlistId } = useParams();
 
-  const { data: playlistData } = useGetPlaylistByIdQuery(playlistId);
+  const { data: playlistData, refetch } = useGetPlaylistByIdQuery(playlistId);
   const playlist = playlistData?.data;
+  console.log(playlist);
+  
 
+  const [removeVideoFromPlaylist] = useRemoveVideoFromPlaylistMutation();
+
+  const handleDelete = async (videoId) => {
+
+    try {
+      await removeVideoFromPlaylist({videoId: videoId, playlistId: playlistId}).unwrap();
+      toast.success("Video from Playlist deleted!");
+      refetch();
+    } catch (err) {
+      toast.error(`Failed to delete Video from Playlist! ${err?.message || ""}`);
+    }
+  }
   return (
-      <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-        <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
-          <Aside />
-          <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0">
+    <div className="h-screen overflow-y-auto bg-[#121212] text-white">
+      <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
+        <Aside />
+        <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0">
           <div className="flex flex-wrap gap-x-4 gap-y-10 p-4 xl:flex-nowrap">
             <div className="w-full shrink-0 sm:max-w-md xl:max-w-sm">
               <div className="relative mb-2 w-full pt-[56%]">
@@ -63,33 +79,33 @@ function Playlist() {
             <div className="flex w-full flex-col gap-y-4">
               {playlist?.videos?.length > 0 ? playlist?.videos?.map((video, idx) => (
                 <div key={video._id || idx} className="border">
-                  <div className="w-full max-w-3xl gap-x-4 sm:flex">
-                    <div className="relative mb-2 w-full sm:mb-0 sm:w-5/12">
-                    <Link to={`/player/${video?._id}`}>
-                      <div className="w-full pt-[56%]">
-                        <div className="absolute inset-0">
+                  <div className="w-full gap-x-4 sm:flex">
+                    <div className="relative mb-2 w-full sm:mb-0 sm:w-5/12 ">
+                      <Link to={`/player/${video?._id}`}>
+                        <div className="w-full pt-[56%]">
+                          <div className="absolute inset-0">
+                            <img
+                              src={video?.thumbnail || "https://wallpaperaccess.com/full/2861682.jpg"}
+                              alt={video?.title}
+                              className="h-full w-full"
+                            />
+                          </div>
+                          <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
+                            {formatDuration(video?.duration)}
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="flex gap-x-2 px-2 sm:w-7/12 sm:px-0 ">
+                      <Link to={`/player/${video?._id}`}>
+                        <div className="h-10 w-10 shrink-0 sm:hidden">
                           <img
-                            src={video?.thumbnail || "https://wallpaperaccess.com/full/2861682.jpg"}
-                            alt={video?.title}
-                            className="h-full w-full"
+                            src={video?.owner?.avatar || "https://images.pexels.com/photos/3532545/pexels-photo-3532545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+                            alt={video?.owner?.username || "channel-avatar"}
+                            className="h-full w-full rounded-full"
                           />
                         </div>
-                        <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
-                          {formatDuration(video?.duration)}
-                        </span>
-                      </div>
-                    </Link>
-                    </div>
-                    <div className="flex gap-x-2 px-2 sm:w-7/12 sm:px-0">
-                    <Link to={`/player/${video?._id}`}>
-                      <div className="h-10 w-10 shrink-0 sm:hidden">
-                        <img
-                          src={video?.owner?.avatar || "https://images.pexels.com/photos/3532545/pexels-photo-3532545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
-                          alt={video?.owner?.username || "channel-avatar"}
-                          className="h-full w-full rounded-full"
-                        />
-                      </div>
-                    </Link>
+                      </Link>
                       <div className="w-full">
                         <h6 className="mb-1 font-semibold sm:max-w-[75%] mt-2">
                           {video?.title}
@@ -111,6 +127,14 @@ function Playlist() {
                         </Link>
                       </div>
                     </div>
+                    <div className="flex items-start gap-2 pr-5 pt-4">
+                      <button onClick={(e) => {
+                        e.preventDefault();
+                        handleDelete(video._id)
+                        }}>
+                        <Trash size={20} color="red" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               )) : (
@@ -121,7 +145,6 @@ function Playlist() {
         </section>
       </div>
     </div>
-
   )
 }
 

@@ -8,11 +8,12 @@ import { formatTimeAgo } from '../../utils/formatTimeAgo';
 function LikedVideos() {
   const { data, error, isLoading } = useGetLikedVideosQuery();
   const videos = data?.data || [];
+  console.log("Liked", videos);
 
   return (
     <>
       <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-        <h1 className="sm:ml-[70px] text-4xl sm:text-5xl font-bold p-4 bg-gradient-to-r from-gray-100 via-gray-400 to-gray-700 bg-clip-text text-transparent">Liked Videos</h1>
+        <h1 className="sm:ml-[70px] text-4xl sm:text-5xl font-bold p-4 bg-gradient-to-r from-gray-100 via-gray-500 to-gray-800 bg-clip-text text-transparent">Liked Videos</h1>
         <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
           <Aside />
           <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0">
@@ -64,46 +65,50 @@ function LikedVideos() {
             {/* This Start */}
             <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
               {!isLoading && !error && videos?.length > 0 ? videos?.map((video, idx) => (
-                <div key={video.videoDetails._id || idx} className="w-full">
-                  <div className="relative mb-2 w-full pt-[56%]">
-                    <Link to={`/player/${video.videoDetails._id}`}>
-                      <div className="absolute inset-0">
-                        <img
-                          src={video.videoDetails.thumbnail}
-                          alt={video.videoDetails.title}
-                          className="h-full w-full object-cover rounded-lg"
-                        />
+                <div key={video._id || idx} className="w-full">
+                  {video?.isPublished ? (
+                    <div key={video.videoDetails._id || idx} className="w-full">
+                      <div className="relative mb-2 w-full pt-[56%]">
+                        <Link to={`/player/${video.videoDetails._id}`}>
+                          <div className="absolute inset-0">
+                            <img
+                              src={video.videoDetails.thumbnail}
+                              alt={video.videoDetails.title}
+                              className="h-full w-full object-cover rounded-lg"
+                            />
+                          </div>
+                        </Link>
+                        <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
+                          {formatDuration(video.videoDetails.duration)}
+                        </span>
                       </div>
-                    </Link>
-                    <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
-                      {formatDuration(video.videoDetails.duration)}
-                    </span>
-                  </div>
-                  <div className="flex gap-x-2">
-                    <Link
-                      to={`/channel/${video.channel[0]?.username}`}
-                      className="h-10 w-10 shrink-0"
-                    >
-                      <img
-                        src={video.channel[0]?.avatar}
-                        alt={video.channel[0]?.username}
-                        className="h-full w-full rounded-full object-cover"
-                      />
-                    </Link>
-                    <div className="w-full capitalize">
-                      <h6 className="mb-1 font-semibold line-clamp-2">
-                        {video.videoDetails?.title}
-                      </h6>
-                      <p className="flex text-sm text-gray-200">
-                        {formatViews(video.videoDetails.views)}&nbsp;Views ·{" "}
-                        {formatTimeAgo(video.videoDetails.createdAt)}
-                      </p>
-                      <p className="text-sm text-gray-200 lowercase">
-                        @{video.channel[0]?.username}
+                      <div className="flex gap-x-2">
+                        <Link
+                          to={`/channel/${video.channel[0]?.username}`}
+                          className="h-10 w-10 shrink-0"
+                        >
+                          <img
+                            src={video.channel[0]?.avatar}
+                            alt={video.channel[0]?.username}
+                            className="h-full w-full rounded-full object-cover"
+                          />
+                        </Link>
+                        <div className="w-full capitalize">
+                          <h6 className="mb-1 font-semibold line-clamp-2">
+                            {video.videoDetails?.title}
+                          </h6>
+                          <p className="flex text-sm text-gray-200">
+                            {formatViews(video.videoDetails.views)}&nbsp;Views ·{" "}
+                            {formatTimeAgo(video.videoDetails.createdAt)}
+                          </p>
+                          <p className="text-sm text-gray-200 lowercase">
+                            @{video.channel[0]?.username}
 
-                      </p>
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ) : null}
                 </div>
               )) : (
                 <div className="flex justify-center p-4">

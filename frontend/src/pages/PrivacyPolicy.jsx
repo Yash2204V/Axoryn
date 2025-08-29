@@ -4,7 +4,6 @@ import { Footer, Header } from '../components'
 function PrivacyPolicy() {
     return (
         <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-            <Header />
             <section className="relative mx-auto max-w-3xl px-4 py-20">
                 <div className="mb-16 text-center">
                     <h1 className="mb-3 text-sm text-[#08e6f5]">Privacy Policy</h1>
@@ -169,7 +168,6 @@ function PrivacyPolicy() {
                     </ol>
                 </div>
             </section>
-            <Footer />
         </div>
 
     )

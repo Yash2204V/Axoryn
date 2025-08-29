@@ -42,6 +42,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
                 title: 1,
                 duration: 1,
                 views: 1,
+                isPublished: 1,
                 "channel._id": 1,
                 "channel.username": 1,
                 "channel.avatar": 1,
@@ -185,9 +186,15 @@ const getVideoById = asyncHandler(async (req, res) => {
     if (!(videoId)) {
         throw new ApiError(400, "Video Id is invalid");
     }
-    
-    await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
 
+    await Promise.all([
+        Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } }),
+        User.findByIdAndUpdate(
+            req.user._id,
+            { $push: { watchHistory: videoId } }
+        )
+    ]);
+    
     const video = await Video.aggregate([
         {
             $match: { _id: new mongoose.Types.ObjectId(videoId) }
@@ -223,7 +230,7 @@ const getVideoById = asyncHandler(async (req, res) => {
                 "channel.subscribersCount": { $size: "$subscribers" },
                 "channel.isSubscribed": {
                     $cond: {
-                        if: { $in: [ new mongoose.Types.ObjectId(req.user._id), "$subscribers.subscriber" ] },
+                        if: { $in: [new mongoose.Types.ObjectId(req.user._id), "$subscribers.subscriber"] },
                         then: true,
                         else: false
                     }
@@ -245,11 +252,12 @@ const getVideoById = asyncHandler(async (req, res) => {
                 likesCount: 1,
                 title: 1,
                 videoFile: 1,
-                views: 1
+                views: 1,
+                isPublished: 1
             }
         }
     ]);
-    
+
     return res
         .status(200)
         .json(
