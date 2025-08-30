@@ -5,7 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import { Provider } from 'react-redux'
 import store from './app/store.js'
-import { Home, Channel, Player, PrivacyPolicy, TermAndCondition, Login, Register, MyChannel, EditProfile, Playlist, LikedVideos, Admin, HistoryVideos } from "./pages/index.js"
+import { Home, Channel, Player, PrivacyPolicy, TermAndCondition, Login, Register, MyChannel, EditProfile, Playlist, LikedVideos, Admin, HistoryVideos, Support } from "./pages/index.js"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +21,7 @@ const router = createBrowserRouter(
       <Route path='mychannel/admin' element={<Admin />} />
       <Route path='playlist/:playlistId' element={<Playlist />} />
       <Route path='player/:videoId' element={<Player />} />
+      <Route path='support' element={<Support />} />
       <Route path='privacy-policy' element={<PrivacyPolicy />} />
       <Route path='term-and-condition' element={<TermAndCondition />} />
     </Route>

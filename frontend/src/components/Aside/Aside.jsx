@@ -151,7 +151,7 @@ function Aside() {
                     </Link>
                     </li>
                     <li className="hidden sm:block mt-auto">
-                    <button className="flex flex-col items-center justify-center border-white py-1 focus:text-[#08e6f5] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#08e6f5] sm:hover:text-black sm:focus:border-[#08e6f5] sm:focus:bg-[#08e6f5] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">
+                    <Link to={'/support'} className="flex flex-col items-center justify-center border-white py-1 focus:text-[#08e6f5] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#08e6f5] sm:hover:text-black sm:focus:border-[#08e6f5] sm:focus:bg-[#08e6f5] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">
                         <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
                         <svg
                             style={{ width: "100%" }}
@@ -171,7 +171,7 @@ function Aside() {
                         <span className="block sm:hidden sm:group-hover:inline">
                         Support
                         </span>
-                    </button>
+                    </Link>
                     </li>
                     <li className="hidden sm:block">
                     <Link to={`/mychannel/admin`} className="flex flex-col items-center justify-center border-white py-1 focus:text-[#08e6f5] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#08e6f5] sm:hover:text-black sm:focus:border-[#08e6f5] sm:focus:bg-[#08e6f5] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">

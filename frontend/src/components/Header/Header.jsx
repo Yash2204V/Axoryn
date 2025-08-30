@@ -243,7 +243,7 @@ function Header({ onReload }) {
               </Link>
             </li>
             <li className="w-full">
-              <button className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
+              <Link to={'/support'} className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">
                 <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
                   <svg
                     style={{ width: "100%" }}
@@ -261,7 +261,7 @@ function Header({ onReload }) {
                   </svg>
                 </span>
                 <span>Support</span>
-              </button>
+              </Link>
             </li>
             <li className="w-full">
               <Link to={'/mychannel/admin'} className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#08e6f5] hover:text-black focus:border-[#08e6f5] focus:bg-[#08e6f5] focus:text-black">

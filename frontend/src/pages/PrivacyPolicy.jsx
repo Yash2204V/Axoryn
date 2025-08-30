@@ -9,7 +9,7 @@ function PrivacyPolicy() {
                     <h1 className="mb-3 text-sm text-[#08e6f5]">Privacy Policy</h1>
                     <h2 className="mb-4 text-4xl font-bold">We care about your privacy</h2>
                     <h3 className="text-gray-300">
-                        Your privacy is important to us at videoTube. We repect your privacy
+                        Your privacy is important to us at axoryn. We repect your privacy
                         regarding any information we may collect from you across out website.
                     </h3>
                 </div>

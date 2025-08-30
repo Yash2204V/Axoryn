@@ -12,6 +12,7 @@ import EditProfile from "./EditProfile/EditProfile";
 import Playlist from "./Playlist/Playlist";
 import LikedVideos from "./LikedVideos/LikedVideos";
 import HistoryVideos from "./HistoryVideos/HistoryVideos";
+import Support from "./Support";
 
 export { 
     Home, 
@@ -21,6 +22,7 @@ export {
     Admin, 
     PrivacyPolicy, 
     TermAndCondition,
+    Support,
     Login,
     Register,
     MyChannel,
