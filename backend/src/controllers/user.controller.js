@@ -454,13 +454,6 @@ const getWatchHistory = asyncHandler(async (req, res) => {
                     },
                     {
                         $addFields: {
-                            views: {
-                                $cond: {
-                                    if: { $isArray: "$views" },
-                                    then: { $size: "$views" },
-                                    else: { $ifNull: ["$views", 0] }
-                                }
-                            },
                             owner: {
                                 $first: "$owner"
                             }

@@ -16,9 +16,6 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
   });
   
   const [isOpen, setIsOpen] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadStatus, setUploadStatus] = useState('');
 
   const { data: allVideos, error: allError, isLoading: allLoading } = useGetAllVideosQuery();
   const { data: userVideos, error: userError, isLoading: userLoading } = useGetAllUserVideosQuery({ userId: data }, { skip: !data });
@@ -57,58 +54,10 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
     }
     
     try {
-      setIsUploading(true);
-      setUploadProgress(0);
-      setUploadStatus('Preparing upload...');
-      
-      const uploadPromise = new Promise((resolve, reject) => {
-        const progressInterval = setInterval(() => {
-          setUploadProgress(prev => {
-            const newProgress = prev + Math.random() * 15;
-            if (newProgress >= 90) {
-              clearInterval(progressInterval);
-              setUploadStatus('Processing video...');
-              return 90;
-            }
-            setUploadStatus(`Uploading... ${Math.round(newProgress)}%`);
-            return newProgress;
-          });
-        }, 500);
-
-        publishAVideo(formData)
-          .unwrap()
-          .then((result) => {
-            clearInterval(progressInterval);
-            setUploadProgress(100);
-            setUploadStatus('Upload complete!');
-            resolve(result);
-          })
-          .catch((error) => {
-            clearInterval(progressInterval);
-            reject(error);
-          });
-      });
-
-      await uploadPromise;
-      
+      await publishAVideo(formData);
       toast.success('Video uploaded successfully!');
-      setTimeout(() => {
-        setIsOpen(false);
-        setIsUploading(false);
-        setUploadProgress(0);
-        setUploadStatus('');
-        setForm({
-          title: "",
-          description: "",
-          videoFile: null,
-          thumbnail: null,
-        });
-      }, 1000);
-      
+      setIsOpen(false);
     } catch (err) {
-      setIsUploading(false);
-      setUploadProgress(0);
-      setUploadStatus('');
       toast.error(`Video upload failed: ${err.message || err}`);
     } 
   };
@@ -206,8 +155,7 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
                         <button
                           type="button"
                           onClick={() => setIsOpen(false)}
-                          disabled={isUploading}
-                          className="bg-[#08e6f5] px-3 py-2 font-bold text-black rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="bg-[#08e6f5] px-3 py-2 font-bold text-black rounded"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -227,20 +175,9 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
                         </button>
                         <button
                           type="submit"
-                          disabled={isUploading}
-                          className="bg-[#08e6f5] px-3 py-2 font-bold text-black rounded disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                          className="bg-[#08e6f5] px-3 py-2 font-bold text-black rounded"
                         >
-                          {isUploading ? (
-                            <>
-                              <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                              </svg>
-                              Uploading...
-                            </>
-                          ) : (
-                            'Save'
-                          )}
+                          Save
                         </button>
                       </div>
                     </div>
@@ -263,27 +200,13 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
                             />
                           </svg>
                         </span>
-                        
-                        {form.videoFile ? (
-                          <div className="mb-4">
-                            <h6 className="mb-2 font-semibold text-[#08e6f5]">Selected Video:</h6>
-                            <p className="text-gray-300">{form.videoFile.name}</p>
-                            <p className="text-gray-400 text-sm">
-                              Size: {(form.videoFile.size / (1024 * 1024)).toFixed(2)} MB
-                            </p>
-                          </div>
-                        ) : (
-                          <>
-                            <h6 className="mb-2 font-semibold">Drag and drop video files to upload</h6>
-                            <p className="text-gray-400">Your videos will be private until you publish them.</p>
-                          </>
-                        )}
-                        
+                        <h6 className="mb-2 font-semibold">Drag and drop video files to upload</h6>
+                        <p className="text-gray-400">Your videos will be private until you publish them.</p>
                         <h1 className='text-2xl font-semibold font-sans text-red-600'>Limit (100MB)</h1>
 
                         <label
                           htmlFor="videoFile"
-                          className={`group/btn mt-4 inline-flex w-auto cursor-pointer items-center gap-x-2 bg-[#08e6f5] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          className="group/btn mt-4 inline-flex w-auto cursor-pointer items-center gap-x-2 bg-[#08e6f5] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e]"
                         >
                           <input
                             type="file"
@@ -291,40 +214,11 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
                             name="videoFile"
                             accept="video/*"
                             onChange={handleChange}
-                            disabled={isUploading}
                             className="sr-only"
                           />
-                          {form.videoFile ? 'Change Video' : 'Select Video'}
+                          Select Video
                         </label>
                       </div>
-
-                      {/* Upload Progress Section */}
-                      {isUploading && (
-                        <div className="w-full rounded-lg border border-gray-600 bg-gray-800 p-4">
-                          <div className="mb-2 flex items-center justify-between">
-                            <span className="text-sm font-medium text-[#08e6f5]">
-                              {uploadStatus}
-                            </span>
-                            <span className="text-sm font-medium text-[#08e6f5]">
-                              {Math.round(uploadProgress)}%
-                            </span>
-                          </div>
-                          <div className="w-full bg-gray-700 rounded-full h-3">
-                            <div 
-                              className="bg-gradient-to-r from-[#08e6f5] to-[#00c4d4] h-3 rounded-full transition-all duration-300 ease-out"
-                              style={{ width: `${uploadProgress}%` }}
-                            ></div>
-                          </div>
-                          {uploadProgress === 100 && (
-                            <div className="mt-2 flex items-center text-green-400">
-                              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                              </svg>
-                              Upload completed successfully!
-                            </div>
-                          )}
-                        </div>
-                      )}
 
                       <div className="w-full">
                         <label htmlFor="thumbnail" className="mb-1 inline-block">
@@ -336,8 +230,7 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
                           name="thumbnail"
                           accept="image/*"
                           onChange={handleChange}
-                          disabled={isUploading}
-                          className="w-full border p-1 file:mr-4 file:border-none file:bg-[#08e6f5] file:px-3 file:py-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full border p-1 file:mr-4 file:border-none file:bg-[#08e6f5] file:px-3 file:py-1.5"
                         />
                       </div>
 
@@ -351,8 +244,7 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
                           name="title"
                           value={form.title}
                           onChange={handleChange}
-                          disabled={isUploading}
-                          className="w-full border bg-transparent px-2 py-1 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full border bg-transparent px-2 py-1 outline-none"
                         />
                       </div>
 
@@ -365,8 +257,7 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
                           name="description"
                           value={form.description}
                           onChange={handleChange}
-                          disabled={isUploading}
-                          className="h-40 w-full resize-none border bg-transparent px-2 py-1 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="h-40 w-full resize-none border bg-transparent px-2 py-1 outline-none"
                         />
                       </div>
                     </div>

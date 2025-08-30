@@ -76,7 +76,7 @@ function Player() {
                       </svg>
                     </span>
                   </p>
-                  <h5 className="mb-2 font-semibold">Error loading video</h5>
+                  <h5 className="mb-2 font-semibold">You have to Login</h5>
                   <p className="mb-4">{error?.data?.message || error?.message || 'Failed to load video'}</p>
                   <button
                     onClick={() => window.location.reload()}

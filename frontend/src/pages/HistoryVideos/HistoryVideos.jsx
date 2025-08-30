@@ -57,7 +57,7 @@ const HistoryVideos = memo(() => {
                                             </svg>
                                         </span>
                                     </p>
-                                    <h5 className="mb-2 font-semibold">Error loading videos</h5>
+                                    <h5 className="mb-2 font-semibold">You have to Logins</h5>
                                     <p className="mb-4">{error?.data?.message || error?.message || 'Failed to load videos'}</p>
                                     <button
                                         onClick={() => window.location.reload()}

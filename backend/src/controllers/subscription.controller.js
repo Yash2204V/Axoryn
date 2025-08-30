@@ -82,7 +82,7 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
     return res
     .status(200)
     .json(
-        new ApiResponse(200, subscribers, "Channel Subscribers fetched successfully")
+        ApiResponse(200, subscribers, "Channel Subscribers fetched successfully")
     )
 
 })
@@ -100,8 +100,7 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
             $match: {
                 subscriber: new mongoose.Types.ObjectId(subscriberId)
             }
-        }, 
-        {
+        }, {
             $lookup: {
                 from: "users",
                 localField: "channel",
@@ -111,23 +110,22 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
         }, 
         {
             $lookup: {
-                from: "subscriptions",
-                localField: "channel", 
-                foreignField: "channel",
-                as: "channelSubscribers"
+                from: "users",
+                localField: "subscriber",
+                foreignField: "_id",
+                as: "subscriberDetails"
             }
         },
         {
             $addFields: {
-                subscriberCount: { $size: "$channelSubscribers" }
+                subscriberCount: { $size: "$subscriberDetails" }
             }
         },
         {
             $unwind: "$channelDetails"
-        }, 
-        {
+        }, {
             $project: {
-                _id: "$channelDetails._id",
+                _id: 1,
                 username: "$channelDetails.username",
                 avatar: "$channelDetails.avatar",
                 fullName: "$channelDetails.fullName",

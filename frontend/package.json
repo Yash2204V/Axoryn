@@ -3,14 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "engines": {
-    "node": "18.x",
-    "npm": ">=8.0.0"
-  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:vercel": "rm -rf node_modules package-lock.json && npm install && npm run build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -19,8 +14,8 @@
     "axios": "^1.10.0",
     "cors": "^2.8.5",
     "lucide-react": "^0.541.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-hook-form": "^7.61.1",
     "react-hot-toast": "^2.6.0",
     "react-redux": "^9.2.0",
@@ -28,8 +23,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.21.0",
@@ -38,6 +33,6 @@
     "globals": "^15.15.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
-    "vite": "^5.4.10"
+    "vite": "^6.2.0"
   }
 }

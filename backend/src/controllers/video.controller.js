@@ -45,7 +45,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
                     $cond: {
                         if: { $isArray: "$views" },
                         then: { $size: "$views" },
-                        else: "$views"
+                        else: { $ifNull: ["$views", 0] }
                     }
                 },
                 isPublished: 1,
@@ -204,17 +204,12 @@ const getVideoById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Video Id is invalid");
     }
 
-    const currentVideo = await Video.findById(videoId);
-    
-    let updateOperation;
-    if (Array.isArray(currentVideo.views)) {
-        updateOperation = { $addToSet: { views: req.user._id } };
-    } else {
-        updateOperation = { $set: { views: [req.user._id] } };
-    }
-
+    // Add user to views array only if not already present (unique view tracking)
     await Promise.all([
-        Video.findByIdAndUpdate(videoId, updateOperation),
+        Video.findByIdAndUpdate(
+            videoId, 
+            { $addToSet: { views: req.user._id } } // $addToSet ensures no duplicates
+        ),
         User.findByIdAndUpdate(
             req.user._id,
             { $push: { watchHistory: videoId } }
