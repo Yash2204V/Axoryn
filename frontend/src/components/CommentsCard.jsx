@@ -70,7 +70,7 @@ const CommentsCard = memo(({ videoId }) => {
                             <div className="flex gap-x-4">
                                 <div className="mt-2 h-11 w-11 shrink-0">
                                     <img
-                                        src={comment?.commentor.avatar || "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+                                        src={comment?.commentor.avatar}
                                         alt={comment?.commentor.username}
                                         className="h-full w-full rounded-full" />
                                 </div>

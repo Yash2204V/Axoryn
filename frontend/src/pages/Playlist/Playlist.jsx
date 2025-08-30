@@ -100,7 +100,7 @@ function Playlist() {
                       <Link to={`/player/${video?._id}`}>
                         <div className="h-10 w-10 shrink-0 sm:hidden">
                           <img
-                            src={video?.owner?.avatar || "https://images.pexels.com/photos/3532545/pexels-photo-3532545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+                            src={video?.owner?.avatar}
                             alt={video?.owner?.username || "channel-avatar"}
                             className="h-full w-full rounded-full"
                           />
@@ -117,7 +117,7 @@ function Playlist() {
                           <div className="flex items-center gap-x-4">
                             <div className="mt-2 hidden h-10 w-10 shrink-0 sm:block">
                               <img
-                                src={video?.owner?.avatar || "https://images.pexels.com/photos/3532545/pexels-photo-3532545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+                                src={video?.owner?.avatar}
                                 alt={video?.owner?.username || "channel-avatar"}
                                 className="h-full w-full rounded-full"
                               />

@@ -19,7 +19,7 @@ function SubscribedCard({ data }) {
                     <div className="flex items-center gap-x-2">
                         <div className="h-14 w-14 shrink-0">
                             <img
-                                src={subscriber?.avatar || "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"}
+                                src={subscriber?.avatar}
                                 alt="Code Master"
                                 className="h-full w-full rounded-full"
                             />

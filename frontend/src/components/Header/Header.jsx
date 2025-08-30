@@ -283,10 +283,7 @@ function Header({ onReload }) {
               <div className="flex w-full items-center gap-4 md:w-auto">
                 <Link to={`/mychannel/${userData?.username}`} className="mr-1 w-full rounded-full shadow-[5px_5px_0px_0px_#4b5563] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4b5563] flex gap-4 text-left sm:items-center px-3 py-2 sm:px-0 sm:py-0">
                   <img
-                    src={
-                      userData?.avatar ||
-                      "https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    }
+                    src={userData?.avatar}
                     alt={userData?.username || "User"}
                     className="h-16 w-16 shrink-0 rounded-full sm:h-12 sm:w-12"
                   />

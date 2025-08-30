@@ -100,10 +100,7 @@ const VideoCard = memo(({ data, userSpecificVideos=true, addVideoBtn=false }) =>
                         className="h-10 w-10 shrink-0"
                       >
                         <img
-                          src={
-                            video.channel?.avatar ||
-                            "https://images.pexels.com/photos/1144277/pexels-photo-1144277.jpeg"
-                          }
+                          src={video.channel?.avatar}
                           alt={video.channel.username}
                           className="h-full w-full rounded-full object-cover"
                         />
