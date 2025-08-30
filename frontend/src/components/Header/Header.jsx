@@ -44,48 +44,8 @@ function Header({ onReload }) {
             <Logo />
           </Link>
         </div>
-        <div className="text-white relative mx-auto hidden w-full max-w-md overflow-hidden sm:block">
-          <input
-            className="w-full border bg-transparent py-1 pl-8 pr-3 placeholder-white outline-none sm:py-2"
-            placeholder="Search"
-          />
-          <span className="absolute left-2.5 top-1/2 inline-block -translate-y-1/2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-              className=" h-4 w-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-              />
-            </svg>
-          </span>
-        </div>
         <div className="ml-auto flex items-center gap-4 pl-3">
           <ReloadBtn onReload={onReload} isLoading={isLoading} />
-          <button className="ml-auto sm:hidden text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-              className=" h-6 w-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-              />
-            </svg>
-          </button>
         </div>
         <button className="group peer ml-4 flex w-6 shrink-0 flex-wrap gap-y-1.5 sm:hidden">
           <span className="block h-[2px] w-full bg-white group-hover:bg-[#08e6f5]" />

@@ -8,7 +8,7 @@ import { formatTimeAgo } from '../../utils/formatTimeAgo';
 function LikedVideos() {
   const { data, error, isLoading } = useGetLikedVideosQuery();
   const videos = data?.data || [];
-  console.log("Liked", videos);
+
 
   return (
     <>
@@ -65,8 +65,8 @@ function LikedVideos() {
             {/* This Start */}
             <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
               {!isLoading && !error && videos?.length > 0 ? videos?.map((video, idx) => (
-                <div key={video._id || idx} className="w-full">
-                  {video?.isPublished ? (
+                <div key={video.videoDetails._id || idx} className="w-full">
+                  {video?.videoDetails.isPublished ? (
                     <div key={video.videoDetails._id || idx} className="w-full">
                       <div className="relative mb-2 w-full pt-[56%]">
                         <Link to={`/player/${video.videoDetails._id}`}>

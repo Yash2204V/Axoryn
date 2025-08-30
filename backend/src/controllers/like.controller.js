@@ -131,6 +131,16 @@ const getLikedVideos = asyncHandler(async (req, res) => {
         }, { 
             $unwind: "$videoDetails" 
         }, {
+            $addFields: {
+                "videoDetails.views": {
+                    $cond: {
+                        if: { $isArray: "$videoDetails.views" },
+                        then: { $size: "$videoDetails.views" },
+                        else: { $ifNull: ["$videoDetails.views", 0] }
+                    }
+                }
+            }
+        }, {
             $project: {
                 _id: 0,
                 likedAt: "$createdAt",

@@ -41,7 +41,13 @@ const getAllVideos = asyncHandler(async (req, res) => {
                 thumbnail: 1,
                 title: 1,
                 duration: 1,
-                views: 1,
+                views: {
+                    $cond: {
+                        if: { $isArray: "$views" },
+                        then: { $size: "$views" },
+                        else: "$views"
+                    }
+                },
                 isPublished: 1,
                 "channel._id": 1,
                 "channel.username": 1,
@@ -110,6 +116,17 @@ const getAllUserVideos = asyncHandler(async (req, res) => {
         },
         { $skip: (page - 1) * limit },
         { $limit: limit },
+        {
+            $addFields: {
+                views: {
+                    $cond: {
+                        if: { $isArray: "$views" },
+                        then: { $size: "$views" },
+                        else: { $ifNull: ["$views", 0] }
+                    }
+                }
+            }
+        },
         {
             $project: {
                 "channel.email": 0,
@@ -187,8 +204,17 @@ const getVideoById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Video Id is invalid");
     }
 
+    const currentVideo = await Video.findById(videoId);
+    
+    let updateOperation;
+    if (Array.isArray(currentVideo.views)) {
+        updateOperation = { $addToSet: { views: req.user._id } };
+    } else {
+        updateOperation = { $set: { views: [req.user._id] } };
+    }
+
     await Promise.all([
-        Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } }),
+        Video.findByIdAndUpdate(videoId, updateOperation),
         User.findByIdAndUpdate(
             req.user._id,
             { $push: { watchHistory: videoId } }
@@ -227,6 +253,13 @@ const getVideoById = asyncHandler(async (req, res) => {
         {
             $addFields: {
                 likesCount: { $size: "$likes" },
+                views: {
+                    $cond: {
+                        if: { $isArray: "$views" },
+                        then: { $size: "$views" },
+                        else: { $ifNull: ["$views", 0] }
+                    }
+                },
                 "channel.subscribersCount": { $size: "$subscribers" },
                 "channel.isSubscribed": {
                     $cond: {

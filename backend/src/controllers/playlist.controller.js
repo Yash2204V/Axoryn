@@ -70,25 +70,91 @@ const getPlaylistById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid Playlist Id");
     }
 
-    const playlist = await Playlist.findById(playlistId)
-    .populate("owner", "username fullName avatar")
-    .populate({
-            path: "videos",
-            select: "_id title thumbnail duration views owner createdAt",
-            populate: {
-            path: "owner",
-            select: "username avatar"
+    const playlist = await Playlist.aggregate([
+        {
+            $match: { _id: new mongoose.Types.ObjectId(playlistId) }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            username: 1,
+                            fullName: 1,
+                            avatar: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $lookup: {
+                from: "videos",
+                localField: "videos",
+                foreignField: "_id",
+                as: "videos",
+                pipeline: [
+                    {
+                        $lookup: {
+                            from: "users",
+                            localField: "owner",
+                            foreignField: "_id",
+                            as: "owner",
+                            pipeline: [
+                                {
+                                    $project: {
+                                        username: 1,
+                                        avatar: 1
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        $unwind: "$owner"
+                    },
+                    {
+                        $addFields: {
+                            views: {
+                                $cond: {
+                                    if: { $isArray: "$views" },
+                                    then: { $size: "$views" },
+                                    else: { $ifNull: ["$views", 0] }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        $project: {
+                            _id: 1,
+                            title: 1,
+                            thumbnail: 1,
+                            duration: 1,
+                            views: 1,
+                            owner: 1,
+                            createdAt: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $unwind: "$owner"
         }
-    });
+    ]);
 
-    if (!playlist) {
+    if (!playlist || playlist.length === 0) {
         throw new ApiError(400, "Playlist not found")
     }
 
     return res
         .status(200)
         .json(
-            new ApiResponse(200, playlist, "Playlist Fetched Successfully")
+            new ApiResponse(200, playlist[0], "Playlist Fetched Successfully")
         )
 })
 

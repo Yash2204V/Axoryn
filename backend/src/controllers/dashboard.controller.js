@@ -54,7 +54,21 @@ const getChannelStats = asyncHandler(async (req, res) => {
         },
         {
             $addFields: {
-                totalViews: { $sum: "$videosDetails.views" },
+                totalViews: { 
+                    $sum: { 
+                        $map: { 
+                            input: "$videosDetails", 
+                            as: "video", 
+                            in: {
+                                $cond: {
+                                    if: { $isArray: "$$video.views" },
+                                    then: { $size: "$$video.views" },
+                                    else: { $ifNull: ["$$video.views", 0] }
+                                }
+                            }
+                        } 
+                    } 
+                },
                 totalLikes: { $size: "$likesDetails" }, // count likes
                 totalSubscribers: { $size: "$subscriptionsDetails" } // count subscribers
             }
@@ -91,7 +105,22 @@ const getChannelStats = asyncHandler(async (req, res) => {
 const getChannelVideos = asyncHandler(async (req, res) => {
     // TODO: Get all the videos uploaded by the channel
 
-    const videos = await Video.find({ owner: req.user._id });
+    const videos = await Video.aggregate([
+        {
+            $match: { owner: new mongoose.Types.ObjectId(req.user._id) }
+        },
+        {
+            $addFields: {
+                views: {
+                    $cond: {
+                        if: { $isArray: "$views" },
+                        then: { $size: "$views" },
+                        else: { $ifNull: ["$views", 0] }
+                    }
+                }
+            }
+        }
+    ]);
 
     if (!videos) {
         throw new ApiError(400, "Fetching Channel Videos Failed")
