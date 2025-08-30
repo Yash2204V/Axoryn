@@ -1,11 +1,3 @@
 {
-  "functions": {
-    "app/api/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "buildCommand": "npm ci && npm run build",
-  "outputDirectory": "dist",
-  "installCommand": "npm install --production=false",
   "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
