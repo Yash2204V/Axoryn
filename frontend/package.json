@@ -3,9 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:vercel": "rm -rf node_modules package-lock.json && npm install && npm run build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -32,11 +37,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
     "postcss": "^8.5.6",
-    "rollup": "^4.22.0",
     "tailwindcss": "^3.4.17",
-    "vite": "^6.2.0"
-  },
-  "overrides": {
-    "rollup": "^4.22.0"
+    "vite": "^5.4.10"
   }
 }
