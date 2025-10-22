@@ -53,6 +53,36 @@ function Login() {
         }
     };
 
+    // Demo login handler
+    const handleDemoLogin = async () => {
+        const demoData = {
+            username: 'demo',
+            email: 'demo@gmail.com',
+            password: '123456'
+        };
+
+        try {
+            const response = await loginUser(demoData).unwrap();
+
+            if (response?.data?.accessToken) {
+                localStorage.setItem('token', response.data.accessToken);
+            }
+
+            setFormData({
+                username: "",
+                email: "",
+                password: ""
+            });
+
+            toast.success("Demo login successful!");
+            navigate('/');
+
+        } catch (err) {
+            toast.error('Demo login failed');
+            console.error('Demo login error:', err);
+        }
+    };
+
     return (
         <div className="h-screen overflow-y-auto bg-[#121212] text-white">
             <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
@@ -103,6 +133,15 @@ function Login() {
                         type={'submit'}
                         disabled={isLoading}>
                         {isLoading ? 'Signing In...' : 'Sign In'}
+                    </Button>
+
+                    <Button
+                        type={'button'}
+                        disabled={isLoading}
+                        onClick={handleDemoLogin}
+                        className="mt-3 bg-gray-800 hover:bg-gray-700 text-gray-200"
+                    >
+                        {isLoading ? 'Signing In...' : 'Login as Demo'}
                     </Button>
                 </form>
 

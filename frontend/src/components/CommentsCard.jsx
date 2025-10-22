@@ -1,5 +1,5 @@
 import { memo, useState } from 'react'
-import { useAddCommentMutation, useDeleteCommentMutation, useGetVideoCommentsQuery, useUpdateCommentMutation } from '../services/comment/commentApi';
+import { useAddCommentMutation, useDeleteCommentMutation, useGetVideoCommentsQuery } from '../services/comment/commentApi';
 import { formatTimeAgo } from '../utils/formatTimeAgo';
 import Button from './Button';
 import toast from 'react-hot-toast';
